@@ -5,7 +5,7 @@ import { Constants, OPCODE } from '../constants/Constants.ts';
 import { Identify, Heartbeat } from '../constants/Payloads.ts';
 import { Payload } from '../interfaces/Payload.ts';
 import { Events } from '../constants/Events.ts';
-import Client from "../client/Client.ts";
+import { Client } from "../client/Client.ts";
 
 export default class WebSocketManager extends EventEmitter {
 
@@ -36,9 +36,12 @@ export default class WebSocketManager extends EventEmitter {
             break;
         }
         if (event) {
-          const { default: module } = await import(`../handlers/${event}.ts`);
-          console.log(module);
-          module(this.client, payload);
+          try {
+            const { default: module } = await import(`../handlers/${event}.ts`);
+            module(this.client, payload);
+          } catch (err) {
+            console.log(err);
+          }
         }
       }
     } catch (err) {

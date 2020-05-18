@@ -1,5 +1,6 @@
 export enum Constants {
   GATEWAY = 'wss://gateway.discord.gg/?v=6&encoding=json',
+  API = 'https://discord.com/api/v6',
 }
 
 export enum OPCODE {
@@ -16,4 +17,10 @@ export enum OPCODE {
   TEN = 10,
   ELEVEN = 11,
   TWELVE = 12,
+}
+
+export enum ENDPOINTS {
+  USERS = 'users',
+  USER_GUILDS = 'users/@me/guilds',
+  GUILDS = 'guilds'
 }

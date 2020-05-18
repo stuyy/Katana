@@ -9,6 +9,6 @@ export default class ClientUser {
     private bot: boolean,
     private avatar: string,
     ) {
-
+      
     }
 }
