@@ -1,33 +1,6 @@
-import {
-  acceptWebSocket,
-  isWebSocketCloseEvent,
-  isWebSocketPingEvent,
-  connectWebSocket,
-} from "https://deno.land/std/ws/mod.ts";
+import Client from '../src/client/Client.ts';
+import EventQueue from './structures/EventQueue.ts';
 
-import Constants from './constants/Constants.ts';
+const client = new Client();
 
-try {
-  const socket = await connectWebSocket(Constants.GATEWAY);
-  console.log('Connected.');
-  for await (const m of socket) {
-    const payload = JSON.parse(m.toString());
-    console.log(payload);
-    const { t, s, op, d } = payload;
-    const { heartbeat_interval } = d;
-    console.log(heartbeat_interval);
-    if (op == 10) {
-      const p = {
-        op: 1,
-        d: null,
-      };
-
-      setInterval(() => {
-        console.log(`Sending heartbeat every ${heartbeat_interval} ms...`)
-        socket.send(JSON.stringify(p));
-      }, heartbeat_interval);
-    }
-  }
-} catch (err) {
-  console.log(err);
-}
+client.login('token');
