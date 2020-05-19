@@ -20,7 +20,6 @@ export default class WebSocketManager extends EventEmitter {
     try {
       this.socket = await connectWebSocket(Constants.GATEWAY);
       for await (const msg of this.socket) {
-        console.log(msg);
         const payload: Payload = JSON.parse(msg.toString());
         const { t: event, op } = payload;
         switch (op) {

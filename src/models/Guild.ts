@@ -8,39 +8,39 @@ export default class Guild {
 
   constructor(
     private _id: string,
-    private name: string,
-    private icon: string,
-    private description: string,
-    private splash: string,
-    private discoverySplash: string,
-    private features: Array<any>,
+    private _name: string,
+    private _icon: string,
+    private _description: string,
+    private _splash: string,
+    private _discoverySplash: string,
+    private _features: Array<any>,
     private _emojis: Map<string, Emoji>,
-    private banner: string,
-    private ownerId: string,
-    private applicationId: string,
-    private region: string,
-    private afkChannelId: string,
-    private afkTimeout: string,
-    private systemChannelId: string,
-    private widgetEnabled: boolean,
-    private widgetChannelId: string,
-    private verificationLevel: number,
+    private _banner: string,
+    private _ownerId: string,
+    private _applicationId: string,
+    private _region: string,
+    private _afkChannelId: string,
+    private _afkTimeout: string,
+    private _systemChannelId: string,
+    private _widgetEnabled: boolean,
+    private _widgetChannelId: string,
+    private _verificationLevel: number,
     private _roles: Map<string, Role> =  new Map(),
-    private defaultMessageNotifications: number,
-    private mfaLevel: number,
-    private explicitContentFilter: number,
-    private maxPresences: number,
-    private maxMembers: number,
-    private maxVideoChannelUsers: number,
-    private vanityUrl: string,
-    private premiumTier: number,
-    private premiumSubscriptionCount: number,
-    private systemChannelFlags: number,
-    private preferredLocale: string,
-    private rulesChannelId: string,
-    private publicUpdatesChannelId: string,
-    private embedEnabled: boolean,
-    private embedChannelId: string
+    private _defaultMessageNotifications: number,
+    private _mfaLevel: number,
+    private _explicitContentFilter: number,
+    private _maxPresences: number,
+    private _maxMembers: number,
+    private _maxVideoChannelUsers: number,
+    private _vanityUrl: string,
+    private _premiumTier: number,
+    private _premiumSubscriptionCount: number,
+    private _systemChannelFlags: number,
+    private _preferredLocale: string,
+    private _rulesChannelId: string,
+    private _publicUpdatesChannelId: string,
+    private _embedEnabled: boolean,
+    private _embedChannelId: string
   ) {
     
   }
@@ -64,5 +64,8 @@ export default class Guild {
   public set channels(channels: Map<string, GuildChannel>) {
     this._channels = channels;
   }
+
+  public get name() { return this._name; }
+  
 
 }

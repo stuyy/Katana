@@ -10,6 +10,9 @@ import { resolveChannels, resolveEmojis, resolveRoles, buildGuildInstance } from
 export default async function (client: Client, payload: Payload) {
 
   const { d: guild } = payload;
+  if (client.guilds.has(payload.d.id)) {
+    console.log('Exists GUILD CREATE');
+  }
   const now = performance.now();
 
   let response = await client.rest.fetchChannels(guild.id);
