@@ -1,6 +1,10 @@
 import Role from "./Role.ts";
+import Emoji from "./Emoji.ts";
+import GuildChannel from "./GuildChannel.ts";
 
 export default class Guild {
+
+  private _channels: Map<string, GuildChannel> = new Map();
 
   constructor(
     private _id: string,
@@ -10,7 +14,7 @@ export default class Guild {
     private splash: string,
     private discoverySplash: string,
     private features: Array<any>,
-    private emojis: Array<any>,
+    private _emojis: Map<string, Emoji>,
     private banner: string,
     private ownerId: string,
     private applicationId: string,
@@ -48,4 +52,17 @@ export default class Guild {
   public get roles(): Map<string, Role> {
     return this._roles;
   }
+
+  public get emojis(): Map<string, Emoji> {
+    return this._emojis;
+  }
+
+  public get channels(): Map<string, GuildChannel> {
+    return this._channels;
+  }
+
+  public set channels(channels: Map<string, GuildChannel>) {
+    this._channels = channels;
+  }
+
 }

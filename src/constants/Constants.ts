@@ -22,5 +22,7 @@ export enum OPCODE {
 export enum ENDPOINTS {
   USERS = 'users',
   USER_GUILDS = 'users/@me/guilds',
-  GUILDS = 'guilds'
+  GUILDS = 'guilds',
+  CHANNELS = 'channels',
+  MESSAGES = 'messages',
 }

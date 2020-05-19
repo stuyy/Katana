@@ -1,16 +1,16 @@
 
 import { connectWebSocket, WebSocket } from "https://deno.land/std/ws/mod.ts";
 import EventEmitter from 'https://deno.land/std@0.51.0/node/events.ts';
-import { Constants, OPCODE } from '../constants/Constants.ts';
-import { Identify, Heartbeat } from '../constants/Payloads.ts';
-import { Payload } from '../interfaces/Payload.ts';
-import { Events } from '../constants/Events.ts';
-import { Client } from "../client/Client.ts";
+import { Constants, OPCODE } from '../../constants/Constants.ts';
+import { Identify, Heartbeat } from '../../constants/Payloads.ts';
+import { Payload } from '../../interfaces/Payload.ts';
+import { Client } from "../Client.ts";
 
 export default class WebSocketManager extends EventEmitter {
 
   private interval: number = 0;
   private socket!: WebSocket;
+  private ackReceived: boolean = false;
 
   constructor(private client: Client) {
     super();
@@ -20,6 +20,7 @@ export default class WebSocketManager extends EventEmitter {
     try {
       this.socket = await connectWebSocket(Constants.GATEWAY);
       for await (const msg of this.socket) {
+        console.log(msg);
         const payload: Payload = JSON.parse(msg.toString());
         const { t: event, op } = payload;
         switch (op) {
@@ -29,7 +30,7 @@ export default class WebSocketManager extends EventEmitter {
             await this.identify(token);
             break;
           case OPCODE.ELEVEN:
-            console.log('Gateway Heartbeat ACK');
+            this.ackReceived = true;
             break;
           case OPCODE.NINE:
             console.log('Invalid gateway session');
@@ -37,10 +38,10 @@ export default class WebSocketManager extends EventEmitter {
         }
         if (event) {
           try {
-            const { default: module } = await import(`../handlers/${event}.ts`);
+            const { default: module } = await import(`../../handlers/${event}.ts`);
             module(this.client, payload);
           } catch (err) {
-            console.log(err);
+            // console.log(err);
           }
         }
       }

@@ -1,20 +1,23 @@
 import EventEmitter from 'https://deno.land/std@0.51.0/node/events.ts';
-import WebSocketManager from '../ws/Websocket.ts';
+import WebSocketManager from '../client/ws/Websocket.ts';
 import ClientUser from './ClientUser.ts';
 import Guild from '../models/Guild.ts';
+import RestAPIHandler from '../client/rest/RestAPIHandler.ts';
+import GuildChannel from '../models/GuildChannel.ts';
 
 export class Client extends EventEmitter {
 
   private _user!: ClientUser;
-  private _token!: string;
   private _guilds: Map<string, Guild> = new Map();
+  private _channels: Map<string, GuildChannel> = new Map();
 
   private socket: WebSocketManager = new WebSocketManager(this);
+  private _rest: RestAPIHandler = new RestAPIHandler(this);
+
   async login(token: string): Promise<void> {
     try {
-      this._token = token;
+      this._rest.token = token;
       await this.socket.connect(token);
-      console.log(this.token);
     } catch (err) {
       console.log(err);
     }
@@ -28,12 +31,12 @@ export class Client extends EventEmitter {
     this._user = user;
   }
 
-  get token() {
-    return this._token;
-  }
-
   get guilds() {
     return this._guilds;
+  }
+
+  get rest(): RestAPIHandler {
+    return this._rest;
   }
   
 }
