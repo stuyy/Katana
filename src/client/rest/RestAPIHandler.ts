@@ -2,12 +2,17 @@ import { Client } from '../Client.ts';
 import { headers } from '../../constants/Payloads.ts';
 import { Constants, ENDPOINTS } from '../../constants/Constants.ts';
 import Message from '../../models/Message.ts';
+import { MessageOptions } from '../../typedefs/MessageOptions.ts';
 
 export default class RestAPIHandler {
   
   private _token: string = '';
 
-  constructor(private client: Client) {}
+  constructor(private client: Client) {
+    Object.defineProperty(this, '_token', {
+      enumerable: false
+    })
+  }
 
   async fetchGuilds() {
     const response = await fetch(`${Constants.API}/${ENDPOINTS.USER_GUILDS}`, { headers });
@@ -24,17 +29,16 @@ export default class RestAPIHandler {
     return response.json();
   }
 
-  async createMessage(content: string, id: string) {
+  async createMessage(options: MessageOptions, id: string) {
     const data = {
-      content,
-      tts: false,
+      content: options.content,
+      tts: options.tts
     }
     const response = await fetch(`${Constants.API}/${ENDPOINTS.CHANNELS}/${id}/${ENDPOINTS.MESSAGES}`, {
       headers,
       body: JSON.stringify(data),
     });
     const json = await response.json();
-    console.log(json);
   }
 
   set token(token: string) {
