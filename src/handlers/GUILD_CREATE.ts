@@ -1,7 +1,7 @@
 import { Client } from "../client/Client.ts";
 import { Payload } from "../interfaces/Payload.ts";
 import { Events } from '../constants/Events.ts';
-import GuildChannel from "../models/GuildChannel.ts";
+import GuildChannel from "../models/channels/GuildChannel.ts";
 import Guild from "../models/Guild.ts";
 import Role from "../models/Role.ts";
 import Emoji from "../models/Emoji.ts";

@@ -4,6 +4,6 @@ import { Events } from '../constants/Events.ts';
 import Message from "../models/Message.ts";
 
 export default function(client: Client, payload: Payload) {
-
+  
   client.emit(Events.MESSAGE_CREATE);
 }

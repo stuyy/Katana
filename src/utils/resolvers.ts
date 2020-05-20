@@ -1,17 +1,19 @@
-import GuildChannel from "../models/GuildChannel.ts";
+import GuildChannel from '../models/channels/GuildChannel.ts';
 import Guild from "../models/Guild.ts";
 import { Client } from "../client/Client.ts";
 import Emoji from "../models/Emoji.ts";
 import Role from "../models/Role.ts";
+import { ChannelType } from '../constants/Constants.ts';
 
 export function resolveChannels(client: Client, guild: Guild, channels: Array<any>) {
   const channelsMap = new Map<string, GuildChannel>();
   for (const c of channels) {
     channelsMap.set(c.id, new GuildChannel(
       c.id,
+      client,
+      getChannelType(c.type),
       c.last_message_id,
       c.last_pin_timestmap,
-      c.type,
       c.name,
       c.position,
       c.parent_id,
@@ -20,7 +22,6 @@ export function resolveChannels(client: Client, guild: Guild, channels: Array<an
       c.permission_overwrites,
       c.nsfw,
       c.rate_limit_per_user,
-      client,
     ));
   }
   return channelsMap;
@@ -111,4 +112,15 @@ export function buildGuildInstance(roles: Map<string, Role>, emojis: Map<string,
     guild.embed_enabled,
     guild.embed_channel_id,
   );
+}
+
+export function getChannelType(type: number): ChannelType {
+  if (type === 0) return ChannelType.TEXT;
+  if (type === 1) return ChannelType.DM;
+  if (type === 2) return ChannelType.VOICE;
+  if (type === 3) return ChannelType.GROUP_DM;
+  if (type === 4) return ChannelType.CATEGORY;
+  if (type === 5) return ChannelType.NEWS;
+  if (type === 6) return ChannelType.STORE;
+  return ChannelType.UNKNOWN;
 }

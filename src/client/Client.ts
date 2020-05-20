@@ -3,7 +3,7 @@ import WebSocketManager from '../client/ws/Websocket.ts';
 import ClientUser from './ClientUser.ts';
 import Guild from '../models/Guild.ts';
 import RestAPIHandler from '../client/rest/RestAPIHandler.ts';
-import GuildChannel from '../models/GuildChannel.ts';
+import GuildChannel from '../models/channels/GuildChannel.ts';
 
 export class Client extends EventEmitter {
 

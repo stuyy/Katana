@@ -26,3 +26,14 @@ export enum ENDPOINTS {
   CHANNELS = 'channels',
   MESSAGES = 'messages',
 }
+
+export enum ChannelType {
+  DM = 'dm',
+  TEXT = 'text',
+  VOICE = 'voice',
+  CATEGORY = 'category',
+  NEWS = 'news',
+  STORE = 'store',
+  GROUP_DM = 'group',
+  UNKNOWN = 'unknown'
+}
