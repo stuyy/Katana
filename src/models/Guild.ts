@@ -1,6 +1,6 @@
 import Role from "./Role.ts";
 import Emoji from "./Emoji.ts";
-import GuildChannel from "./channels/GuildChannel.ts";
+import { GuildChannel } from "./channels/GuildChannel.ts";
 
 export default class Guild {
 

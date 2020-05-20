@@ -1,12 +1,12 @@
 import Guild from "../Guild.ts";
 import { Client } from "../../client/Client.ts";
-import GuildChannel from './GuildChannel.ts';
+import { GuildChannel } from './GuildChannel.ts';
 import { ChannelType } from '../../constants/Constants.ts';
 import TextBasedChannel from '../interfaces/ITextChannel.ts';
 import Message from '../Message.ts';
 import { MessageOptions } from '../../typedefs/MessageOptions.ts';
 
-export default class TextChannel extends GuildChannel implements TextBasedChannel {
+export class TextChannel extends GuildChannel implements TextBasedChannel {
   
   
   constructor(

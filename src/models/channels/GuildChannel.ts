@@ -1,9 +1,9 @@
 import Guild from '../Guild.ts';
-import BaseChannel from '../channels/BaseChannel.ts';
+import { BaseChannel } from '../channels/BaseChannel.ts';
 import { Client } from '../../client/Client.ts';
 import { ChannelType } from '../../constants/Constants.ts';
 
-export default class GuildChannel extends BaseChannel {
+export class GuildChannel extends BaseChannel {
 
   private _lastMessageId: string;
   private _lastPinTimestamp: Date;

@@ -1,4 +1,4 @@
-import GuildChannel from "./channels/GuildChannel.ts";
+import { GuildChannel } from "./channels/GuildChannel.ts";
 import Guild from "./Guild.ts";
 import User from "./User.ts";
 import { Client } from "../client/Client.ts";

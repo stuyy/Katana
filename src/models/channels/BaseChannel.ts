@@ -2,7 +2,7 @@
 import { Client } from '../../client/Client.ts';
 import { ChannelType } from '../../constants/Constants.ts';
 
-export default class BaseChannel {
+export class BaseChannel {
 
 	constructor(
 		private _client: Client,

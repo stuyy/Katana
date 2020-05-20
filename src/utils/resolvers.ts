@@ -1,4 +1,4 @@
-import GuildChannel from '../models/channels/GuildChannel.ts';
+import { GuildChannel } from '../models/channels/GuildChannel.ts';
 import Guild from "../models/Guild.ts";
 import { Client } from "../client/Client.ts";
 import Emoji from "../models/Emoji.ts";
