@@ -1,5 +1,5 @@
 import EventEmitter from 'https://deno.land/std@0.51.0/node/events.ts';
-import WebSocketManager from '../client/ws/Websocket.ts';
+import WebSocketManager from '../client/ws/WebSocket.ts';
 import ClientUser from './ClientUser.ts';
 import Guild from '../models/Guild.ts';
 import RestAPIHandler from '../client/rest/RestAPIHandler.ts';
