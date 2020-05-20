@@ -1,5 +1,5 @@
 import Guild from "../Guild.ts";
-import { Client } from "../../client/Client.ts";
+import Client from "../../client/Client.ts";
 import { GuildChannel } from './GuildChannel.ts';
 import { ChannelType } from '../../constants/Constants.ts';
 import TextBasedChannel from '../interfaces/ITextChannel.ts';

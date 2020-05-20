@@ -1,4 +1,4 @@
-import { Client } from "../client/Client.ts";
+import Client from "../client/Client.ts";
 import { Payload } from "../interfaces/Payload.ts";
 import { Events } from '../constants/Events.ts';
 import ClientUser from "../client/ClientUser.ts";

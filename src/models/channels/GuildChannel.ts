@@ -1,6 +1,6 @@
 import Guild from '../Guild.ts';
 import { BaseChannel } from '../channels/BaseChannel.ts';
-import { Client } from '../../client/Client.ts';
+import Client from '../../client/Client.ts';
 import { ChannelType } from '../../constants/Constants.ts';
 
 export class GuildChannel extends BaseChannel {

@@ -1,4 +1,4 @@
-import { Client } from '../Client.ts';
+import Client from '../Client.ts';
 import { headers } from '../../constants/Payloads.ts';
 import { Constants, ENDPOINTS } from '../../constants/Constants.ts';
 import Message from '../../models/Message.ts';

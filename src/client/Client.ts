@@ -1,15 +1,37 @@
 import EventEmitter from 'https://deno.land/std@0.51.0/node/events.ts';
-import WebSocketManager from '../client/ws/Websocket.ts';
+import WebSocketManager from '../client/ws/WebSocket.ts';
 import ClientUser from './ClientUser.ts';
 import Guild from '../models/Guild.ts';
 import RestAPIHandler from '../client/rest/RestAPIHandler.ts';
+import Collection from '../models/Collection.ts';
+import { BaseChannel } from '../models/channels/BaseChannel.ts';
 import { GuildChannel } from '../models/channels/GuildChannel.ts';
+import { TextChannel } from '../models/channels/TextChannel.ts';
+import Message from '../models/Message.ts';
 
-export class Client extends EventEmitter {
+interface ClientEvents {
+  channelCreate: (channel: GuildChannel) => void;
+  channelUpdate: (oldChannel: GuildChannel, newChannel: GuildChannel) => void;
+  channelDelete: (channel: GuildChannel) => void;
+  channelPinsUpdate: (channel: TextChannel, time: Date) => void;
+  guildCreate: (guild: Guild) => void;
+  guildUpdate: (oldGuild: Guild, newGuild: Guild) => void;
+  guildDelete: (guild: Guild) => void;
+  ready: () => void;
+  resumed: () => void;
+  message: (message: Message) => void;
+}
+
+declare interface Client {
+  on<Event extends keyof ClientEvents>(event: Event, listener: ClientEvents[Event]): this;
+  emit<Event extends keyof ClientEvents>(event: Event, ...args: Parameters<ClientEvents[Event]>): boolean;
+}
+
+class Client extends EventEmitter {
 
   private _user!: ClientUser;
-  private _guilds: Map<string, Guild> = new Map();
-  private _channels: Map<string, GuildChannel> = new Map();
+  private _guilds: Collection<string, Guild> = new Collection();
+  private _channels: Collection<string, BaseChannel> = new Collection();
 
   private socket: WebSocketManager = new WebSocketManager(this);
   private _rest: RestAPIHandler = new RestAPIHandler(this);
@@ -38,5 +60,10 @@ export class Client extends EventEmitter {
   get rest(): RestAPIHandler {
     return this._rest;
   }
-  
+
+  get channels(): Collection<string, BaseChannel> {
+    return this._channels;
+  }
 }
+
+export default Client;
