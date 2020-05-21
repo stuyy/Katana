@@ -1,14 +1,10 @@
-import Guild from "../Guild.ts";
-import Client from "../../client/Client.ts";
-import { GuildChannel } from './GuildChannel.ts';
+import { GuildChannel } from '../channels/GuildChannel.ts';
+import Client from '../../client/Client.ts';
 import { ChannelTypeDef } from '../../typedefs/ChannelType.ts';
-import TextBasedChannel from '../interfaces/ITextChannel.ts';
-import { MessageOptions } from '../../typedefs/MessageOptions.ts';
-import Collection from '../Collection.ts';
-import Message from '../Message.ts';
+import Guild from '../Guild.ts';
 
-export class TextChannel extends GuildChannel implements TextBasedChannel {
-
+export class VoiceChannel extends GuildChannel {
+  
   constructor(
     _id: string,
     _client: Client,
@@ -25,10 +21,5 @@ export class TextChannel extends GuildChannel implements TextBasedChannel {
     _rateLimitPerUser: number,
   ) {
     super(_id, _client, _type, _lastMessageId, _lastPinTimestamp, _name, _position, _parentId, _topic, _guild, _permissionOverwrites, _nsfw, _rateLimitPerUser);
-  }
-
-  send(options: MessageOptions): any {
-    const response = this.client.rest.createMessage(options, this.id);
-    console.log(response);
   }
 }

@@ -15,6 +15,7 @@ interface ClientEvents {
   channelUpdate: (oldChannel: GuildChannel, newChannel: GuildChannel) => void;
   channelDelete: (channel: GuildChannel) => void;
   channelPinsUpdate: (channel: TextChannel, time: Date) => void;
+  debug: (...args: any) => void;
   guildCreate: (guild: Guild) => void;
   guildUpdate: (oldGuild: Guild, newGuild: Guild) => void;
   guildDelete: (guild: Guild) => void;

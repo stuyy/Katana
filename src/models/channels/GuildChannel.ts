@@ -1,13 +1,12 @@
 import Guild from '../Guild.ts';
 import { BaseChannel } from '../channels/BaseChannel.ts';
 import Client from '../../client/Client.ts';
-import { ChannelType } from '../../constants/Constants.ts';
+import { ChannelType, ChannelTypeDef } from '../../typedefs/ChannelType.ts';
 
 export class GuildChannel extends BaseChannel {
 
   private _lastMessageId: string;
   private _lastPinTimestamp: Date;
-  private _name: string;
   private _position: number;
   private _parentId: string;
   private _topic: string;
@@ -19,7 +18,7 @@ export class GuildChannel extends BaseChannel {
   constructor(
     _id: string,
     _client: Client,
-    _type: ChannelType,
+    _type: ChannelTypeDef,
     _lastMessageId: string,
     _lastPinTimestamp: Date,
     _name: string,
@@ -31,10 +30,9 @@ export class GuildChannel extends BaseChannel {
     _nsfw: boolean,
     _rateLimitPerUser: number,
   ) {
-    super(_client, _id, _type);
+    super(_client, _id, _name, _type);
     this._lastMessageId = _lastMessageId;
     this._lastPinTimestamp = _lastPinTimestamp;
-    this._name = _name;
     this._position = _position;
     this._parentId = _parentId;
     this._topic = _topic;
@@ -46,7 +44,6 @@ export class GuildChannel extends BaseChannel {
   
   public get lastMessageId(): string { return this._lastMessageId; }
   public get lastPinTimestamp(): Date { return this._lastPinTimestamp; }
-  public get name(): string { return this._name; }
   public get position(): number { return this._position; }
   public get parentId(): string { return this._parentId; }
   public get topic(): string { return this._topic }

@@ -19,7 +19,6 @@ client.on('guildCreate', (guild: Guild) => {
 
 client.on('message', (message: Message) => {
   if (message.content === '?hello') {
-  
     message.channel.send({
       content: 'Hello!',
       tts: false,
@@ -29,6 +28,10 @@ client.on('message', (message: Message) => {
       content: 'help command'
     })
   }
+});
+
+client.on('debug', (data: any) => {
+  console.log(data);
 });
 
 // deno run --allow-read --allow-net --allow-env --allow-hrtime ./src/index.ts

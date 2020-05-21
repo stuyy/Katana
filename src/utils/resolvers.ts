@@ -3,31 +3,33 @@ import Guild from "../models/Guild.ts";
 import Client from "../client/Client.ts";
 import Emoji from "../models/Emoji.ts";
 import Role from "../models/Role.ts";
-import { ChannelType } from '../constants/Constants.ts';
+import { ChannelType, ChannelTypeDef } from '../typedefs/ChannelType.ts';
 import Collection from '../models/Collection.ts';
 import User from '../models/User.ts';
 import GuildMember from '../models/GuildMember.ts';
 import { TextChannel } from '../models/channels/TextChannel.ts';
+import { CategoryChannel } from '../models/channels/CategoryChannel.ts';
+import { VoiceChannel } from '../models/channels/VoiceChannel.ts';
+import { BaseChannel } from '../models/channels/BaseChannel.ts';
 
 export function resolveChannels(client: Client, guild: Guild, channels: Array<any>) {
   const channelsMap = new Map<string, GuildChannel>();
   for (const c of channels) {
-    const channel = new TextChannel(
-      c.id,
-      client,
-      getChannelType(c.type),
-      c.last_message_id,
-      c.last_pin_timestmap,
-      c.name,
-      c.position,
-      c.parent_id,
-      c.topic,
-      guild,
-      c.permission_overwrites,
-      c.nsfw,
-      c.rate_limit_per_user,
-    );
-    channelsMap.set(channel.id, channel);
+    let channel;
+    switch (c.type) {
+      case ChannelType.TEXT:
+        channel = buildTextChannel(client, guild, c);
+        break;
+      case ChannelType.CATEGORY:
+        channel = buildCategoryChannel(client, guild, c);
+        break;
+      case ChannelType.VOICE:
+        channel = buildVoiceChannel(client, guild, c);
+        break;
+      default:
+        channel = new BaseChannel(client, c.id, c?.name, ChannelTypeDef.UNKNOWN);
+        break;
+    }
     client.channels.set(channel.id, channel);
   }
   return channelsMap;
@@ -135,11 +137,68 @@ export function buildGuildInstance(roles: Collection<string, Role>, emojis: Map<
   );
 }
 
+export function buildVoiceChannel(client: Client, guild: Guild, c: any): VoiceChannel {
+  return new VoiceChannel(
+    c.id,
+    client,
+    ChannelTypeDef.VOICE,
+    c.last_message_id,
+    c.last_pin_timestmap,
+    c.name,
+    c.position,
+    c.parent_id,
+    c.topic,
+    guild,
+    c.permission_overwrites,
+    c.nsfw,
+    c.rate_limit_per_user,
+  );
+};
+
+export function buildCategoryChannel(client: Client, guild: Guild, c: any) {
+  return new CategoryChannel(
+    c.id,
+    client,
+    ChannelTypeDef.CATEGORY,
+    c.last_message_id,
+    c.last_pin_timestmap,
+    c.name,
+    c.position,
+    c.parent_id,
+    c.topic,
+    guild,
+    c.permission_overwrites,
+    c.nsfw,
+    c.rate_limit_per_user,
+  );
+}
+export function buildTextChannel(client: Client, guild: Guild, c: any) {
+  return new TextChannel(
+    c.id,
+    client,
+    ChannelTypeDef.TEXT,
+    c.last_message_id,
+    c.last_pin_timestmap,
+    c.name,
+    c.position,
+    c.parent_id,
+    c.topic,
+    guild,
+    c.permission_overwrites,
+    c.nsfw,
+    c.rate_limit_per_user,
+  );
+}
+
+export function buildGroupDMChannel(client: Client, guild: Guild, c: any) {
+
+}
+
 export function getChannelType(type: number): ChannelType {
   if (type === 0) return ChannelType.TEXT;
   if (type === 1) return ChannelType.DM;
   if (type === 2) return ChannelType.VOICE;
-  if (type === 3) return ChannelType.GROUP_DM;
+  if (type === 3) return ChannelType.DM;
   if (type === 4) return ChannelType.CATEGORY;
   if (type === 5) return ChannelType.NEWS;
   if (type === 6) return ChannelType.STORE;

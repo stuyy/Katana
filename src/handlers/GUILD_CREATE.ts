@@ -17,7 +17,6 @@ export default async function (client: Client, payload: Payload) {
     const newGuild = buildGuildInstance(roles, emojis, guild);
     const channels = resolveChannels(client, guild, response);
     const members = resolveGuildMembersAndUsers(client, newGuild, guild.members);
-    console.log(members.size);
     newGuild.channels = channels;
     newGuild.members = members;
     client.guilds.set(newGuild.id, newGuild);
