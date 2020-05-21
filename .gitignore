@@ -1,7 +1,3 @@
 .env
 .denon.json
-<<<<<<< HEAD
 .vscode
-=======
-src/index.ts
->>>>>>> ad21889067143e983aefd6dbfd7f13fd8f3300cf
