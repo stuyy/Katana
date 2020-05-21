@@ -16,7 +16,7 @@ client.on("message", async (message: Message) => {
   console.log(message.channel.messages.size);
   if (message.content === "?hello") {
     const msg = await message.channel.send("hello");
-    console.log(msg);
+    msg.delete();
   }
 });
 
