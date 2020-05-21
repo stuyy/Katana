@@ -6,10 +6,12 @@ import TextBasedChannel from "../interfaces/ITextChannel.ts";
 import { MessageOptions } from "../../typedefs/MessageOptions.ts";
 import Collection from "../Collection.ts";
 import Message from "../Message.ts";
+import { buildMessage } from '../../utils/resolvers.ts';
 
 export class TextChannel extends GuildChannel implements TextBasedChannel {
 
-  private _messages: Collection<string, Message> = new Mes
+  private _messages: Collection<string, Message> = new Collection();
+
   constructor(
     _id: string,
     _client: Client,
@@ -42,17 +44,17 @@ export class TextChannel extends GuildChannel implements TextBasedChannel {
     );
   }
 
-  send(payload: string | MessageOptions): any {
+  get messages(): Collection<string, Message> { return this._messages; }
+
+  async send(payload: string | MessageOptions) {
     if (typeof payload === "string") {
       const body: MessageOptions = { content: payload };
-      const response = this.client.rest.createMessage(body, this.id);
-      return;
+      const response = await this.client.rest.createMessage(body, this.id);
+      response.guild_id = this.guild.id;
+      return await buildMessage(this.client, response);
     }
-
-    if (payload) {
-      console.log(payload);
-      const response = this.client.rest.createMessage(payload, this.id);
-      return;
-    }
+    const response = await this.client.rest.createMessage(payload, this.id);
+    response.guild_id = this.guild.id;
+    return await buildMessage(this.client, response);
   }
 }
