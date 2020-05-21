@@ -2,6 +2,7 @@ import Guild from "./Guild.ts";
 import User from "./User.ts";
 import { TextChannel } from "./channels/TextChannel.ts";
 import GuildMember from './GuildMember.ts';
+import { MessageDeleteOptions } from '../typedefs/MessageOptions.ts';
 
 export default class Message {
   constructor(
@@ -41,4 +42,17 @@ export default class Message {
   public get pinned(): boolean { return this._pinned; }
   public get type(): number { return this._type; }
   public get content(): string { return this._content; }
+
+  public delete(options?: MessageDeleteOptions): Promise<Message> {
+    return new Promise((resolve, reject) => {
+      setTimeout(async () => {
+        try {
+          await this.channel.client.rest.deleteMessage(this.channel.id, this.id);
+          resolve(this);
+        } catch (err) {
+          reject(err);
+        }
+      }, options?.timeout || 0);
+    });
+  }
 }
