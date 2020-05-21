@@ -1,33 +1,44 @@
-import { GuildChannel } from "./channels/GuildChannel.ts";
 import Guild from "./Guild.ts";
 import User from "./User.ts";
 import { TextChannel } from "./channels/TextChannel.ts";
+import GuildMember from './GuildMember.ts';
 
 export default class Message {
   constructor(
-    private id: string,
+    private _id: string,
     private _channel: TextChannel,
-    private guild: Guild,
-    private author: User,
-    private member: any,
+    private _guild: Guild,
+    private _author: User,
+    private _member: any,
     private _content: string,
-    private timestamp: Date,
-    private editedAt: Date,
-    private tts: boolean,
-    private mentionedEveryone: boolean,
-    private attachments: Array<any>,
-    private embeds: Array<any>,
-    private reactions: Array<any>,
-    private nonce: number | string,
-    private pinned: boolean,
-    private type: number,
+    private _timestamp: Date,
+    private _editedAt: Date,
+    private _tts: boolean,
+    private _mentionedEveryone: boolean,
+    private _attachments: Array<any>,
+    private _embeds: Array<any>,
+    private _reactions: Array<any>,
+    private _nonce: number | string,
+    private _pinned: boolean,
+    private _type: number,
   ) {
+
   }
 
-  public get content(): string {
-    return this._content;
-  }
-  public get channel(): TextChannel {
-    return this._channel;
-  }
+  public get id(): string { return this._id; }
+  public get channel(): TextChannel { return this._channel; }
+  public get user(): User { return this._author; }
+  public get guild(): Guild { return this._guild; }
+  public get member(): GuildMember { return this._member; }
+  public get timestamp(): Date { return this._timestamp; }
+  public get editedAt(): Date { return this._editedAt; }
+  public get tts(): boolean { return this._tts; }
+  public get mentionedEveryone(): boolean { return this._mentionedEveryone; }
+  public get attachments(): Array<any> { return this._attachments; }
+  public get embeds(): Array<any> { return this._embeds; }
+  public get reactions(): Array<any> { return this._reactions; }
+  public get nonce(): number | string { return this._nonce; }
+  public get pinned(): boolean { return this._pinned; }
+  public get type(): number { return this._type; }
+  public get content(): string { return this._content; }
 }
