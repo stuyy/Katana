@@ -21,3 +21,10 @@ export const headers = {
   'Content-Type' : 'application/json',
   'Authorization' : '',
 }
+
+export interface Payload {
+  op: number;
+  s: number;
+  t: string;
+  d: any;
+}

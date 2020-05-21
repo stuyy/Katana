@@ -1,5 +1,5 @@
 import Client from "../client/Client.ts";
-import { Payload } from "../interfaces/Payload.ts";
+import { Payload } from "../constants/Payloads.ts";
 import { Events } from '../constants/Events.ts';
 import { resolveChannels, resolveEmojis, resolveRoles, buildGuildInstance, resolveGuildMembersAndUsers } from '../utils/resolvers.ts';
 

@@ -3,7 +3,7 @@ import { connectWebSocket, WebSocket } from "https://deno.land/std/ws/mod.ts";
 import EventEmitter from 'https://deno.land/std@0.51.0/node/events.ts';
 import { Constants, OPCODE } from '../../constants/Constants.ts';
 import { Identify, Heartbeat } from '../../constants/Payloads.ts';
-import { Payload } from '../../interfaces/Payload.ts';
+import { Payload } from '../../constants/Payloads.ts';
 import Client from "../Client.ts";
 
 export default class WebSocketManager extends EventEmitter {
