@@ -1,16 +1,17 @@
 import { GuildChannel } from "./channels/GuildChannel.ts";
 import Guild from "./Guild.ts";
 import User from "./User.ts";
+import { TextChannel } from './channels/TextChannel.ts';
 
 export default class Message {
 
   constructor(
     private id: string,
-    private channel: GuildChannel,
+    private _channel: TextChannel,
     private guild: Guild,
     private author: User,
     private member: any,
-    private content: string,
+    private _content: string,
     private timestamp: Date,
     private editedAt: Date,
     private tts: boolean,
@@ -24,4 +25,8 @@ export default class Message {
   ) {
 
   }
+
+  public get content(): string { return this._content; }
+  public get channel(): TextChannel { return this._channel; }
 }
+
