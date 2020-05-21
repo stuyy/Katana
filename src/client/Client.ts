@@ -1,5 +1,5 @@
 import EventEmitter from 'https://deno.land/std@0.51.0/node/events.ts';
-import WebSocketManager from '../client/ws/WebSocket.ts';
+import WebSocketManager from '../client/ws/Websocket.ts';
 import ClientUser from './ClientUser.ts';
 import Guild from '../models/Guild.ts';
 import RestAPIHandler from '../client/rest/RestAPIHandler.ts';
@@ -8,6 +8,7 @@ import { BaseChannel } from '../models/channels/BaseChannel.ts';
 import { GuildChannel } from '../models/channels/GuildChannel.ts';
 import { TextChannel } from '../models/channels/TextChannel.ts';
 import Message from '../models/Message.ts';
+import User from '../models/User.ts';
 
 interface ClientEvents {
   channelCreate: (channel: GuildChannel) => void;
@@ -32,6 +33,7 @@ class Client extends EventEmitter {
   private _user!: ClientUser;
   private _guilds: Collection<string, Guild> = new Collection();
   private _channels: Collection<string, BaseChannel> = new Collection();
+  private _users: Collection<string, User> = new Collection();
 
   private socket: WebSocketManager = new WebSocketManager(this);
   private _rest: RestAPIHandler = new RestAPIHandler(this);
@@ -63,6 +65,10 @@ class Client extends EventEmitter {
 
   get channels(): Collection<string, BaseChannel> {
     return this._channels;
+  }
+  
+  get users(): Collection<string, User> {
+    return this._users;
   }
 }
 

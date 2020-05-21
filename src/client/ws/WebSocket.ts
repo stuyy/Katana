@@ -52,7 +52,6 @@ export default class WebSocketManager extends EventEmitter {
 
   private heartbeat(ms: number): number {
     return setInterval(() => {
-      console.log('Sending Heartbeat.');
       this.socket.send(JSON.stringify(Heartbeat));
     }, ms);
   }

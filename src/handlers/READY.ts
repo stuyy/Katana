@@ -2,7 +2,7 @@ import Client from "../client/Client.ts";
 import { Payload } from "../interfaces/Payload.ts";
 import { Events } from '../constants/Events.ts';
 import ClientUser from "../client/ClientUser.ts";
-import { resolveRoles, resolveEmojis, buildGuildInstance, resolveChannels } from "../utils/resolvers.ts";
+import { resolveRoles, resolveEmojis, buildGuildInstance, resolveChannels, resolveGuildMembersAndUsers } from "../utils/resolvers.ts";
 
 export default async function (client: Client, payload: Payload) {
 
@@ -22,13 +22,16 @@ export default async function (client: Client, payload: Payload) {
   const now = performance.now();
   for (const g of guilds) {
     if (!client.guilds.has(g.id)) {
-      const guild: any = await client.rest.fetchGuild(g.id);
-      const channelsResponse: any = await client.rest.fetchChannels(guild.id);
-      const roles = resolveRoles(client, guild.roles);
-      const emojis = resolveEmojis(client, guild.emojis);
-      const newGuild = buildGuildInstance(roles, emojis, guild);
-      const channels = resolveChannels(client, newGuild, channelsResponse);
+      const fetchedGuild: any = await client.rest.fetchGuild(g.id);
+      const fetchedMembers: any = await client.rest.fetchGuildMembers(g.id, fetchedGuild.approximate_member_count);
+      const fetchedChannels: any = await client.rest.fetchChannels(fetchedGuild.id);
+      const roles = resolveRoles(client, fetchedGuild.roles);
+      const emojis = resolveEmojis(client, fetchedGuild.emojis);
+      const newGuild = buildGuildInstance(roles, emojis, fetchedGuild);
+      const channels = resolveChannels(client, newGuild, fetchedChannels);
+      const members = resolveGuildMembersAndUsers(client, newGuild, fetchedMembers);
       newGuild.channels = channels;
+      newGuild.members = members;
       client.guilds.set(newGuild.id, newGuild);
     }
   }

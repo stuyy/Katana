@@ -25,6 +25,7 @@ export enum ENDPOINTS {
   GUILDS = 'guilds',
   CHANNELS = 'channels',
   MESSAGES = 'messages',
+  MEMBERS = 'members',
 }
 
 export enum ChannelType {

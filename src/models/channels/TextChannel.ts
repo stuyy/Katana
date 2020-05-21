@@ -8,7 +8,6 @@ import { MessageOptions } from '../../typedefs/MessageOptions.ts';
 
 export class TextChannel extends GuildChannel implements TextBasedChannel {
   
-  
   constructor(
     _id: string,
     _client: Client,
