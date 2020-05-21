@@ -50,16 +50,11 @@ export default class RestAPIHandler {
   }
 
   async createMessage(options: MessageOptions, id: string) {
-    const data = {
-      "content": options.content,
-      "tts": options.tts,
-    };
     const response = await fetch(`${Constants.API}/${ENDPOINTS.CHANNELS}/${id}/${ENDPOINTS.MESSAGES}`, {
       method: 'POST',
       headers,
-      body: JSON.stringify(data),
+      body: JSON.stringify(options),
     });
-    console.log(response);
     return response.json();
   }
   
