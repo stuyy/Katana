@@ -1,10 +1,13 @@
 import Role from "./Role.ts";
 import Emoji from "./Emoji.ts";
 import { GuildChannel } from "./channels/GuildChannel.ts";
+import Collection from './Collection.ts';
+import GuildMember from './GuildMember.ts';
 
 export default class Guild {
 
   private _channels: Map<string, GuildChannel> = new Map();
+  private _members: Collection<string, GuildMember> = new Collection();
 
   constructor(
     private _id: string,
@@ -25,7 +28,7 @@ export default class Guild {
     private _widgetEnabled: boolean,
     private _widgetChannelId: string,
     private _verificationLevel: number,
-    private _roles: Map<string, Role> =  new Map(),
+    private _roles: Collection<string, Role>,
     private _defaultMessageNotifications: number,
     private _mfaLevel: number,
     private _explicitContentFilter: number,
@@ -53,19 +56,18 @@ export default class Guild {
     return this._roles;
   }
 
-  public get emojis(): Map<string, Emoji> {
-    return this._emojis;
-  }
+  public get emojis(): Map<string, Emoji> { return this._emojis; }
 
-  public get channels(): Map<string, GuildChannel> {
-    return this._channels;
-  }
+  public get channels(): Map<string, GuildChannel> { return this._channels; }
 
-  public set channels(channels: Map<string, GuildChannel>) {
-    this._channels = channels;
-  }
+  public set channels(channels: Map<string, GuildChannel>) { this._channels = channels; }
 
   public get name() { return this._name; }
+
+  public get members(): Collection<string, GuildMember> { return this._members; }
   
+  public set members(members: Collection<string, GuildMember>) {
+    this._members = members;
+  }
 
 }

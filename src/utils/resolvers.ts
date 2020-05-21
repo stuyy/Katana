@@ -4,11 +4,15 @@ import Client from "../client/Client.ts";
 import Emoji from "../models/Emoji.ts";
 import Role from "../models/Role.ts";
 import { ChannelType } from '../constants/Constants.ts';
+import Collection from '../models/Collection.ts';
+import User from '../models/User.ts';
+import GuildMember from '../models/GuildMember.ts';
+import { TextChannel } from '../models/channels/TextChannel.ts';
 
 export function resolveChannels(client: Client, guild: Guild, channels: Array<any>) {
   const channelsMap = new Map<string, GuildChannel>();
   for (const c of channels) {
-    channelsMap.set(c.id, new GuildChannel(
+    const channel = new TextChannel(
       c.id,
       client,
       getChannelType(c.type),
@@ -22,7 +26,9 @@ export function resolveChannels(client: Client, guild: Guild, channels: Array<an
       c.permission_overwrites,
       c.nsfw,
       c.rate_limit_per_user,
-    ));
+    );
+    channelsMap.set(channel.id, channel);
+    client.channels.set(channel.id, channel);
   }
   return channelsMap;
 }
@@ -59,7 +65,7 @@ export function resolveEmojis(client: Client, emojis: Array<any>) {
 }
 
 export function resolveRoles(client: Client, roles: Array<any>) {
-  const rolesMap = new Map<string, Role>();
+  const rolesMap = new Collection<string, Role>();
   for (const role of roles) {
     rolesMap.set(role.id, new Role(
       role.id,
@@ -75,7 +81,22 @@ export function resolveRoles(client: Client, roles: Array<any>) {
   return rolesMap;
 }
 
-export function buildGuildInstance(roles: Map<string, Role>, emojis: Map<string, Emoji>, guild: any) {
+export function resolveGuildMembersAndUsers(client: Client, newGuild: Guild, members: Array<any>) {
+  const membersMap = new Collection();
+  for (const member of members) {
+    const { user } = member;
+    client.users.set(user.id, new User(
+      user.id, user.username, user.discriminator, user.avatar, user.bot, user.system, user.mfaEnabled, user.locale, user.verified, user.flags, user.premiumType, user.public_flags, client));
+    const roles = new Collection<string, Role>();
+    for (const role of member.roles) {
+      roles.set(role, newGuild.roles.get(role));
+    }
+    membersMap.set(
+      user.id, new GuildMember(user, member.nick, roles, member.joined_at, member.premium_since, member.deaf, member.mute));
+  }
+  return membersMap;
+}
+export function buildGuildInstance(roles: Collection<string, Role>, emojis: Map<string, Emoji>, guild: any) {
   return new Guild(
     guild.id,
     guild.name,
