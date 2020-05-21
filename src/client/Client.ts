@@ -24,12 +24,12 @@ interface ClientEvents {
   message: (message: Message) => void;
 }
 
-declare interface Client {
+export declare interface Client {
   on<Event extends keyof ClientEvents>(event: Event, listener: ClientEvents[Event]): this;
   emit<Event extends keyof ClientEvents>(event: Event, ...args: Parameters<ClientEvents[Event]>): boolean;
 }
 
-class Client extends EventEmitter {
+export class Client extends EventEmitter {
 
   private _user!: ClientUser;
   private _guilds: Collection<string, Guild> = new Collection();
