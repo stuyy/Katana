@@ -27,8 +27,16 @@ export class TextChannel extends GuildChannel implements TextBasedChannel {
     super(_id, _client, _type, _lastMessageId, _lastPinTimestamp, _name, _position, _parentId, _topic, _guild, _permissionOverwrites, _nsfw, _rateLimitPerUser);
   }
 
-  send(options: MessageOptions): any {
-    const response = this.client.rest.createMessage(options, this.id);
-    console.log(response);
+  send(payload: string | MessageOptions): any {
+    if (typeof payload === 'string') {
+      const body: MessageOptions = { content: payload };
+      const response = this.client.rest.createMessage(body, this.id);
+      return;
+    }
+    
+    if (payload && payload.content) {
+      const response = this.client.rest.createMessage(payload, this.id);
+      return;
+    }
   }
 }

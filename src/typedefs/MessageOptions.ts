@@ -1,5 +1,10 @@
 export interface MessageOptions {
-  content: string;
+  content?: string;
   tts?: boolean;
-  embed?: any;
+  embed?: MessageEmbed;
+}
+
+export interface MessageEmbed {
+  title: string;
+  description?: string
 }

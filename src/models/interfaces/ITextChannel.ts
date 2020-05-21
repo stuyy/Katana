@@ -3,5 +3,5 @@ import { MessageOptions } from '../../typedefs/MessageOptions.ts';
 
 export default interface TextBasedChannel {
 
-  send(options: MessageOptions): any;
+  send(payload: string | MessageOptions): any;
 }
