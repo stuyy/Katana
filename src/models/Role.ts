@@ -1,5 +1,4 @@
 export default class Role {
-
   constructor(
     private _id: string,
     private name: string,
@@ -8,10 +7,11 @@ export default class Role {
     private position: number,
     private permissions: number,
     private managed: boolean,
-    private mentionable: boolean
+    private mentionable: boolean,
   ) {
-
   }
 
-  public get id() { return this._id; }
+  public get id() {
+    return this._id;
+  }
 }

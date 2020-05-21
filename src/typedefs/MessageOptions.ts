@@ -6,5 +6,5 @@ export interface MessageOptions {
 
 export interface MessageEmbed {
   title: string;
-  description?: string
+  description?: string;
 }

@@ -1,13 +1,11 @@
-
 import { connectWebSocket, WebSocket } from "https://deno.land/std/ws/mod.ts";
-import EventEmitter from 'https://deno.land/std@0.51.0/node/events.ts';
-import { Constants, OPCODE } from '../../constants/Constants.ts';
-import { Identify, Heartbeat } from '../../constants/Payloads.ts';
-import { Payload } from '../../constants/Payloads.ts';
+import EventEmitter from "https://deno.land/std@0.51.0/node/events.ts";
+import { Constants, OPCODE } from "../../constants/Constants.ts";
+import { Identify, Heartbeat } from "../../constants/Payloads.ts";
+import { Payload } from "../../constants/Payloads.ts";
 import Client from "../Client.ts";
 
 export default class WebSocketManager extends EventEmitter {
-
   private interval: number = 0;
   private socket!: WebSocket;
   private ackReceived: boolean = false;
@@ -32,12 +30,14 @@ export default class WebSocketManager extends EventEmitter {
             this.ackReceived = true;
             break;
           case OPCODE.NINE:
-            console.log('Invalid gateway session');
+            console.log("Invalid gateway session");
             break;
         }
         if (event) {
           try {
-            const { default: module } = await import(`../../handlers/${event}.ts`);
+            const { default: module } = await import(
+              `../../handlers/${event}.ts`
+            );
             module(this.client, payload);
           } catch (err) {
             // console.log(err);

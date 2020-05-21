@@ -1,18 +1,22 @@
-import { GuildChannel } from '../models/channels/GuildChannel.ts';
+import { GuildChannel } from "../models/channels/GuildChannel.ts";
 import Guild from "../models/Guild.ts";
 import Client from "../client/Client.ts";
 import Emoji from "../models/Emoji.ts";
 import Role from "../models/Role.ts";
-import { ChannelType, ChannelTypeDef } from '../typedefs/ChannelType.ts';
-import Collection from '../models/Collection.ts';
-import User from '../models/User.ts';
-import GuildMember from '../models/GuildMember.ts';
-import { TextChannel } from '../models/channels/TextChannel.ts';
-import { CategoryChannel } from '../models/channels/CategoryChannel.ts';
-import { VoiceChannel } from '../models/channels/VoiceChannel.ts';
-import { BaseChannel } from '../models/channels/BaseChannel.ts';
+import { ChannelType, ChannelTypeDef } from "../typedefs/ChannelType.ts";
+import Collection from "../models/Collection.ts";
+import User from "../models/User.ts";
+import GuildMember from "../models/GuildMember.ts";
+import { TextChannel } from "../models/channels/TextChannel.ts";
+import { CategoryChannel } from "../models/channels/CategoryChannel.ts";
+import { VoiceChannel } from "../models/channels/VoiceChannel.ts";
+import { BaseChannel } from "../models/channels/BaseChannel.ts";
 
-export function resolveChannels(client: Client, guild: Guild, channels: Array<any>) {
+export function resolveChannels(
+  client: Client,
+  guild: Guild,
+  channels: Array<any>,
+) {
   const channelsMap = new Map<string, GuildChannel>();
   for (const c of channels) {
     let channel;
@@ -27,7 +31,12 @@ export function resolveChannels(client: Client, guild: Guild, channels: Array<an
         channel = buildVoiceChannel(client, guild, c);
         break;
       default:
-        channel = new BaseChannel(client, c.id, c?.name, ChannelTypeDef.UNKNOWN);
+        channel = new BaseChannel(
+          client,
+          c.id,
+          c?.name,
+          ChannelTypeDef.UNKNOWN,
+        );
         break;
     }
     client.channels.set(channel.id, channel);
@@ -41,27 +50,33 @@ export function resolveEmojis(client: Client, emojis: Array<any>) {
     const emojiRoles = emoji.roles;
     const roles = new Map();
     for (const role of emojiRoles) {
-      roles.set(role.id, new Role(
+      roles.set(
         role.id,
-        role.name,
-        role.color,
-        role.hoist,
-        role.position,
-        role.permissions,
-        role.managed,
-        role.mentionable 
-      ));
+        new Role(
+          role.id,
+          role.name,
+          role.color,
+          role.hoist,
+          role.position,
+          role.permissions,
+          role.managed,
+          role.mentionable,
+        ),
+      );
     }
-    emojiMap.set(emoji.id, new Emoji(
+    emojiMap.set(
       emoji.id,
-      emoji.name,
-      roles,
-      emoji.users,
-      emoji.required_colons,
-      emoji.managed,
-      emoji.animated,
-      emoji.available
-    ));
+      new Emoji(
+        emoji.id,
+        emoji.name,
+        roles,
+        emoji.users,
+        emoji.required_colons,
+        emoji.managed,
+        emoji.animated,
+        emoji.available,
+      ),
+    );
   }
   return emojiMap;
 }
@@ -69,36 +84,73 @@ export function resolveEmojis(client: Client, emojis: Array<any>) {
 export function resolveRoles(client: Client, roles: Array<any>) {
   const rolesMap = new Collection<string, Role>();
   for (const role of roles) {
-    rolesMap.set(role.id, new Role(
+    rolesMap.set(
       role.id,
-      role.name,
-      role.color,
-      role.hoist,
-      role.position,
-      role.permissions,
-      role.managed,
-      role.mentionable 
-    ));
+      new Role(
+        role.id,
+        role.name,
+        role.color,
+        role.hoist,
+        role.position,
+        role.permissions,
+        role.managed,
+        role.mentionable,
+      ),
+    );
   }
   return rolesMap;
 }
 
-export function resolveGuildMembersAndUsers(client: Client, newGuild: Guild, members: Array<any>) {
+export function resolveGuildMembersAndUsers(
+  client: Client,
+  newGuild: Guild,
+  members: Array<any>,
+) {
   const membersMap = new Collection();
   for (const member of members) {
     const { user } = member;
-    client.users.set(user.id, new User(
-      user.id, user.username, user.discriminator, user.avatar, user.bot, user.system, user.mfaEnabled, user.locale, user.verified, user.flags, user.premiumType, user.public_flags, client));
+    client.users.set(
+      user.id,
+      new User(
+        user.id,
+        user.username,
+        user.discriminator,
+        user.avatar,
+        user.bot,
+        user.system,
+        user.mfaEnabled,
+        user.locale,
+        user.verified,
+        user.flags,
+        user.premiumType,
+        user.public_flags,
+        client,
+      ),
+    );
     const roles = new Collection<string, Role>();
     for (const role of member.roles) {
       roles.set(role, newGuild.roles.get(role));
     }
     membersMap.set(
-      user.id, new GuildMember(user, member.nick, roles, member.joined_at, member.premium_since, member.deaf, member.mute));
+      user.id,
+      new GuildMember(
+        user,
+        member.nick,
+        roles,
+        member.joined_at,
+        member.premium_since,
+        member.deaf,
+        member.mute,
+      ),
+    );
   }
   return membersMap;
 }
-export function buildGuildInstance(roles: Collection<string, Role>, emojis: Map<string, Emoji>, guild: any) {
+export function buildGuildInstance(
+  roles: Collection<string, Role>,
+  emojis: Map<string, Emoji>,
+  guild: any,
+) {
   return new Guild(
     guild.id,
     guild.name,
@@ -137,7 +189,11 @@ export function buildGuildInstance(roles: Collection<string, Role>, emojis: Map<
   );
 }
 
-export function buildVoiceChannel(client: Client, guild: Guild, c: any): VoiceChannel {
+export function buildVoiceChannel(
+  client: Client,
+  guild: Guild,
+  c: any,
+): VoiceChannel {
   return new VoiceChannel(
     c.id,
     client,
@@ -153,7 +209,7 @@ export function buildVoiceChannel(client: Client, guild: Guild, c: any): VoiceCh
     c.nsfw,
     c.rate_limit_per_user,
   );
-};
+}
 
 export function buildCategoryChannel(client: Client, guild: Guild, c: any) {
   return new CategoryChannel(
@@ -191,7 +247,6 @@ export function buildTextChannel(client: Client, guild: Guild, c: any) {
 }
 
 export function buildGroupDMChannel(client: Client, guild: Guild, c: any) {
-
 }
 
 export function getChannelType(type: number): ChannelType {

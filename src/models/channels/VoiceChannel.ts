@@ -1,10 +1,9 @@
-import { GuildChannel } from '../channels/GuildChannel.ts';
-import Client from '../../client/Client.ts';
-import { ChannelTypeDef } from '../../typedefs/ChannelType.ts';
-import Guild from '../Guild.ts';
+import { GuildChannel } from "../channels/GuildChannel.ts";
+import Client from "../../client/Client.ts";
+import { ChannelTypeDef } from "../../typedefs/ChannelType.ts";
+import Guild from "../Guild.ts";
 
 export class VoiceChannel extends GuildChannel {
-  
   constructor(
     _id: string,
     _client: Client,
@@ -20,6 +19,20 @@ export class VoiceChannel extends GuildChannel {
     _nsfw: boolean,
     _rateLimitPerUser: number,
   ) {
-    super(_id, _client, _type, _lastMessageId, _lastPinTimestamp, _name, _position, _parentId, _topic, _guild, _permissionOverwrites, _nsfw, _rateLimitPerUser);
+    super(
+      _id,
+      _client,
+      _type,
+      _lastMessageId,
+      _lastPinTimestamp,
+      _name,
+      _position,
+      _parentId,
+      _topic,
+      _guild,
+      _permissionOverwrites,
+      _nsfw,
+      _rateLimitPerUser,
+    );
   }
 }

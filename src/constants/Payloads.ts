@@ -1,26 +1,26 @@
-import { OPCODE } from './Constants.ts';
+import { OPCODE } from "./Constants.ts";
 
 export const Heartbeat = {
   op: OPCODE.ONE,
   d: null,
-}
+};
 
 export const Identify = {
   op: OPCODE.TWO,
   d: {
-    token: '',
+    token: "",
     properties: {
-      $os: 'linux',
-      $browser: 'denocord',
-      $device: 'denocord',
-    }
-  }
-}
+      $os: "linux",
+      $browser: "denocord",
+      $device: "denocord",
+    },
+  },
+};
 
 export const headers = {
-  'Content-Type' : 'application/json',
-  'Authorization' : '',
-}
+  "Content-Type": "application/json",
+  "Authorization": "",
+};
 
 export interface Payload {
   op: number;

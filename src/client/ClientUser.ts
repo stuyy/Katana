@@ -8,7 +8,6 @@ export default class ClientUser {
     private email: string,
     private bot: boolean,
     private avatar: string,
-    ) {
-      
-    }
+  ) {
+  }
 }

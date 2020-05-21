@@ -1,11 +1,10 @@
 import Role from "./Role.ts";
 import Emoji from "./Emoji.ts";
 import { GuildChannel } from "./channels/GuildChannel.ts";
-import Collection from './Collection.ts';
-import GuildMember from './GuildMember.ts';
+import Collection from "./Collection.ts";
+import GuildMember from "./GuildMember.ts";
 
 export default class Guild {
-
   private _channels: Map<string, GuildChannel> = new Map();
   private _members: Collection<string, GuildMember> = new Collection();
 
@@ -43,9 +42,8 @@ export default class Guild {
     private _rulesChannelId: string,
     private _publicUpdatesChannelId: string,
     private _embedEnabled: boolean,
-    private _embedChannelId: string
+    private _embedChannelId: string,
   ) {
-    
   }
 
   public get id(): string {
@@ -56,18 +54,27 @@ export default class Guild {
     return this._roles;
   }
 
-  public get emojis(): Map<string, Emoji> { return this._emojis; }
+  public get emojis(): Map<string, Emoji> {
+    return this._emojis;
+  }
 
-  public get channels(): Map<string, GuildChannel> { return this._channels; }
+  public get channels(): Map<string, GuildChannel> {
+    return this._channels;
+  }
 
-  public set channels(channels: Map<string, GuildChannel>) { this._channels = channels; }
+  public set channels(channels: Map<string, GuildChannel>) {
+    this._channels = channels;
+  }
 
-  public get name() { return this._name; }
+  public get name() {
+    return this._name;
+  }
 
-  public get members(): Collection<string, GuildMember> { return this._members; }
-  
+  public get members(): Collection<string, GuildMember> {
+    return this._members;
+  }
+
   public set members(members: Collection<string, GuildMember>) {
     this._members = members;
   }
-
 }

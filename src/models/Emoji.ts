@@ -1,7 +1,6 @@
 import Role from "./Role.ts";
 
 export default class Emoji {
-
   constructor(
     private _id: string,
     private _name: string,
@@ -10,8 +9,7 @@ export default class Emoji {
     private _required_colons: boolean,
     private _managed: boolean,
     private _animated: boolean,
-    private _available: boolean
+    private _available: boolean,
   ) {
-    
   }
 }

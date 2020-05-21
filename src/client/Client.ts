@@ -1,14 +1,14 @@
-import EventEmitter from 'https://deno.land/std@0.51.0/node/events.ts';
-import WebSocketManager from '../client/ws/WebSocket.ts';
-import ClientUser from './ClientUser.ts';
-import Guild from '../models/Guild.ts';
-import RestAPIHandler from '../client/rest/RestAPIHandler.ts';
-import Collection from '../models/Collection.ts';
-import { BaseChannel } from '../models/channels/BaseChannel.ts';
-import { GuildChannel } from '../models/channels/GuildChannel.ts';
-import { TextChannel } from '../models/channels/TextChannel.ts';
-import Message from '../models/Message.ts';
-import User from '../models/User.ts';
+import EventEmitter from "https://deno.land/std@0.51.0/node/events.ts";
+import WebSocketManager from "../client/ws/WebSocket.ts";
+import ClientUser from "./ClientUser.ts";
+import Guild from "../models/Guild.ts";
+import RestAPIHandler from "../client/rest/RestAPIHandler.ts";
+import Collection from "../models/Collection.ts";
+import { BaseChannel } from "../models/channels/BaseChannel.ts";
+import { GuildChannel } from "../models/channels/GuildChannel.ts";
+import { TextChannel } from "../models/channels/TextChannel.ts";
+import Message from "../models/Message.ts";
+import User from "../models/User.ts";
 
 interface ClientEvents {
   channelCreate: (channel: GuildChannel) => void;
@@ -25,12 +25,17 @@ interface ClientEvents {
 }
 
 export declare interface Client {
-  on<Event extends keyof ClientEvents>(event: Event, listener: ClientEvents[Event]): this;
-  emit<Event extends keyof ClientEvents>(event: Event, ...args: Parameters<ClientEvents[Event]>): boolean;
+  on<Event extends keyof ClientEvents>(
+    event: Event,
+    listener: ClientEvents[Event],
+  ): this;
+  emit<Event extends keyof ClientEvents>(
+    event: Event,
+    ...args: Parameters<ClientEvents[Event]>
+  ): boolean;
 }
 
 export class Client extends EventEmitter {
-
   private _user!: ClientUser;
   private _guilds: Collection<string, Guild> = new Collection();
   private _channels: Collection<string, BaseChannel> = new Collection();
@@ -67,7 +72,7 @@ export class Client extends EventEmitter {
   get channels(): Collection<string, BaseChannel> {
     return this._channels;
   }
-  
+
   get users(): Collection<string, User> {
     return this._users;
   }

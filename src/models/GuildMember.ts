@@ -1,9 +1,8 @@
-import User from './User.ts';
-import Collection from './Collection.ts';
-import Role from './Role.ts';
+import User from "./User.ts";
+import Collection from "./Collection.ts";
+import Role from "./Role.ts";
 
 export default class GuildMember {
-
   constructor(
     private _user: User,
     private _nickname: string,
@@ -11,16 +10,29 @@ export default class GuildMember {
     private _joinedAt: Date,
     private _premiumSince: Date,
     private _deaf: boolean,
-    private _mute: boolean
+    private _mute: boolean,
   ) {
-
   }
 
-  public get user(): User { return this._user; }
-	public get nickname(): string { return this._nickname; }
-	public get roles(): Collection<string, Role> { return this._roles; }
-	public get joinedAt(): Date { return this._joinedAt; }
-	public get premiumSince(): Date { return this._premiumSince; }
-	public get deaf(): boolean { return this._deaf; }
-	public get mute(): boolean { return this._mute; }
+  public get user(): User {
+    return this._user;
+  }
+  public get nickname(): string {
+    return this._nickname;
+  }
+  public get roles(): Collection<string, Role> {
+    return this._roles;
+  }
+  public get joinedAt(): Date {
+    return this._joinedAt;
+  }
+  public get premiumSince(): Date {
+    return this._premiumSince;
+  }
+  public get deaf(): boolean {
+    return this._deaf;
+  }
+  public get mute(): boolean {
+    return this._mute;
+  }
 }

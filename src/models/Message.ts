@@ -1,10 +1,9 @@
 import { GuildChannel } from "./channels/GuildChannel.ts";
 import Guild from "./Guild.ts";
 import User from "./User.ts";
-import { TextChannel } from './channels/TextChannel.ts';
+import { TextChannel } from "./channels/TextChannel.ts";
 
 export default class Message {
-
   constructor(
     private id: string,
     private _channel: TextChannel,
@@ -21,12 +20,14 @@ export default class Message {
     private reactions: Array<any>,
     private nonce: number | string,
     private pinned: boolean,
-    private type: number
+    private type: number,
   ) {
-
   }
 
-  public get content(): string { return this._content; }
-  public get channel(): TextChannel { return this._channel; }
+  public get content(): string {
+    return this._content;
+  }
+  public get channel(): TextChannel {
+    return this._channel;
+  }
 }
-

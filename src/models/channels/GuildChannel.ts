@@ -1,10 +1,9 @@
-import Guild from '../Guild.ts';
-import { BaseChannel } from '../channels/BaseChannel.ts';
-import Client from '../../client/Client.ts';
-import { ChannelType, ChannelTypeDef } from '../../typedefs/ChannelType.ts';
+import Guild from "../Guild.ts";
+import { BaseChannel } from "../channels/BaseChannel.ts";
+import Client from "../../client/Client.ts";
+import { ChannelType, ChannelTypeDef } from "../../typedefs/ChannelType.ts";
 
 export class GuildChannel extends BaseChannel {
-
   private _lastMessageId: string;
   private _lastPinTimestamp: Date;
   private _position: number;
@@ -41,15 +40,32 @@ export class GuildChannel extends BaseChannel {
     this._nsfw = _nsfw;
     this._rateLimitPerUser = _rateLimitPerUser;
   }
-  
-  public get lastMessageId(): string { return this._lastMessageId; }
-  public get lastPinTimestamp(): Date { return this._lastPinTimestamp; }
-  public get position(): number { return this._position; }
-  public get parentId(): string { return this._parentId; }
-  public get topic(): string { return this._topic }
-  public get guild(): Guild { return this._guild; }
-  public get permissionOverwrites(): Array<any> { return this._permissionOverwrites; }
-  public get nsfw(): boolean { return this._nsfw; }
-  public get rateLimitPerUser(): number { return this._rateLimitPerUser; }
 
+  public get lastMessageId(): string {
+    return this._lastMessageId;
+  }
+  public get lastPinTimestamp(): Date {
+    return this._lastPinTimestamp;
+  }
+  public get position(): number {
+    return this._position;
+  }
+  public get parentId(): string {
+    return this._parentId;
+  }
+  public get topic(): string {
+    return this._topic;
+  }
+  public get guild(): Guild {
+    return this._guild;
+  }
+  public get permissionOverwrites(): Array<any> {
+    return this._permissionOverwrites;
+  }
+  public get nsfw(): boolean {
+    return this._nsfw;
+  }
+  public get rateLimitPerUser(): number {
+    return this._rateLimitPerUser;
+  }
 }
