@@ -23,8 +23,6 @@ export default async function (client: Client, payload: Payload) {
     user.bot,
     user.avatar,
   );
-
-  const now = performance.now();
   for (const g of guilds) {
     if (!client.guilds.has(g.id)) {
       const fetchedGuild: any = await client.rest.fetchGuild(g.id);
@@ -39,17 +37,12 @@ export default async function (client: Client, payload: Payload) {
       const emojis = resolveEmojis(client, fetchedGuild.emojis);
       const newGuild = buildGuildInstance(roles, emojis, fetchedGuild);
       const channels = resolveChannels(client, newGuild, fetchedChannels);
-      const members = resolveGuildMembersAndUsers(
-        client,
-        newGuild,
-        fetchedMembers,
-      );
+      const members = resolveGuildMembersAndUsers(client, newGuild, fetchedMembers);
       newGuild.channels = channels;
       newGuild.members = members;
+      newGuild.emojis = emojis;
       client.guilds.set(newGuild.id, newGuild);
     }
   }
-  const end = performance.now();
-  console.log(`Duration: ${Math.round(end - now)}ms`);
   client.emit(Events.READY);
 }
