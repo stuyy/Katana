@@ -9,6 +9,7 @@ import { GuildChannel } from "../models/channels/GuildChannel.ts";
 import { TextChannel } from "../models/channels/TextChannel.ts";
 import Message from "../models/Message.ts";
 import User from "../models/User.ts";
+import Emoji from '../models/Emoji.ts';
 
 interface ClientEvents {
   channelCreate: (channel: GuildChannel) => void;
@@ -40,6 +41,7 @@ export class Client extends EventEmitter {
   private _guilds: Collection<string, Guild> = new Collection();
   private _channels: Collection<string, BaseChannel> = new Collection();
   private _users: Collection<string, User> = new Collection();
+  private _emojis: Collection<string, Emoji> = new Collection();
 
   private socket: WebSocketManager = new WebSocketManager(this);
   private _rest: RestAPIHandler = new RestAPIHandler(this);
@@ -53,29 +55,13 @@ export class Client extends EventEmitter {
     }
   }
 
-  get user() {
-    return this._user;
-  }
-
-  set user(user: ClientUser) {
-    this._user = user;
-  }
-
-  get guilds() {
-    return this._guilds;
-  }
-
-  get rest(): RestAPIHandler {
-    return this._rest;
-  }
-
-  get channels(): Collection<string, BaseChannel> {
-    return this._channels;
-  }
-
-  get users(): Collection<string, User> {
-    return this._users;
-  }
+  get user() { return this._user; }
+  set user(user: ClientUser) { this._user = user; }
+  get guilds() { return this._guilds; }
+  get rest(): RestAPIHandler { return this._rest; }
+  get channels(): Collection<string, BaseChannel> { return this._channels; }
+  get users(): Collection<string, User> { return this._users; }
+  get emojis(): Collection<string, Emoji> { return this._emojis; }
 }
 
 export default Client;

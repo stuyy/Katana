@@ -3,6 +3,8 @@ import User from "./User.ts";
 import { TextChannel } from "./channels/TextChannel.ts";
 import GuildMember from './GuildMember.ts';
 import { MessageDeleteOptions } from '../typedefs/MessageOptions.ts';
+import { StatusCode } from '../constants/Constants.ts';
+import { MessageReaction } from './MessageReaction.ts';
 
 export default class Message {
   constructor(
@@ -54,5 +56,18 @@ export default class Message {
         }
       }, options?.timeout || 0);
     });
+  }
+  
+  /**
+   * 
+   * @param emoji the emoji to add to the Message
+   */
+  public async react(emoji: any) {
+    try {
+      await this.channel.client.rest.createReaction(this.channel.id, this.id, emoji);
+      // return new MessageReaction(this.channel.client, 1, this.guild.emojis.get(emoji), this, true, )
+    } catch (err) {
+      throw err;
+    }
   }
 }

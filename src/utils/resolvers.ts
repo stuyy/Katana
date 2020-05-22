@@ -18,7 +18,7 @@ export function resolveChannels(
   guild: Guild,
   channels: Array<any>,
 ) {
-  const channelsMap = new Map<string, GuildChannel>();
+  const channelsMap = new Collection<string, GuildChannel>();
   for (const c of channels) {
     let channel;
     switch (c.type) {
@@ -46,40 +46,24 @@ export function resolveChannels(
 }
 
 export function resolveEmojis(client: Client, emojis: Array<any>) {
-  const emojiMap = new Map<string, Emoji>();
+  const emojiMap = new Collection<string, Emoji>();
   for (const emoji of emojis) {
     const emojiRoles = emoji.roles;
-    const roles = new Map();
-    for (const role of emojiRoles) {
-      roles.set(
-        role.id,
-        new Role(
-          role.id,
-          role.name,
-          role.color,
-          role.hoist,
-          role.position,
-          role.permissions,
-          role.managed,
-          role.mentionable,
-        ),
-      );
-    }
-    emojiMap.set(
-      emoji.id,
-      new Emoji(
-        emoji.id,
-        emoji.name,
-        roles,
-        emoji.users,
-        emoji.required_colons,
-        emoji.managed,
-        emoji.animated,
-        emoji.available,
-      ),
-    );
+    const roles = new Collection();
+    for (const role of emojiRoles) roles.set(role.id, buildRoleInstance(role));
+    const emojiInstance = buildEmojiInstance(emoji, roles);
+    emojiMap.set(emojiInstance.id, emojiInstance);
+    client.emojis.set(emojiInstance.id, emojiInstance);
   }
   return emojiMap;
+}
+
+export function buildEmojiInstance(emoji: any, roles: Collection<string, Role>): Emoji {
+  return new Emoji(emoji.id, emoji.name, roles, emoji.users, emoji.required_colons, emoji.managed, emoji.animated, emoji.available)
+}
+
+export function buildRoleInstance(role: any): Role {
+  return new Role(role.id, role.name,role.color,role.hoist,role.position,role.permissions,role.managed,role.mentionable)
 }
 
 export function resolveRoles(client: Client, roles: Array<any>) {
@@ -149,7 +133,7 @@ export function resolveGuildMembersAndUsers(
 }
 export function buildGuildInstance(
   roles: Collection<string, Role>,
-  emojis: Map<string, Emoji>,
+  emojis: Collection<string, Emoji>,
   guild: any,
 ) {
   return new Guild(
