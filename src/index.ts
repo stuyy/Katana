@@ -1,6 +1,6 @@
 import { Client } from "../mod.ts";
 import "https://deno.land/x/dotenv/load.ts";
-import Message from "./models/Message.ts";
+import { Message } from "./models/Message.ts";
 import { MessageEmbed } from './models/embeds/Embeds.ts';
 
 

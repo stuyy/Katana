@@ -11,7 +11,7 @@ import { TextChannel } from "../models/channels/TextChannel.ts";
 import { CategoryChannel } from "../models/channels/CategoryChannel.ts";
 import { VoiceChannel } from "../models/channels/VoiceChannel.ts";
 import { BaseChannel } from "../models/channels/BaseChannel.ts";
-import Message from '../models/Message.ts';
+import { Message } from '../models/Message.ts';
 import { MessageEmbed, MessageEmbedFooter, MessageEmbedImage, MessageEmbedThumbnail, MessageEmbedVideo, MessageEmbedProvider, MessageEmbedAuthor, MessageEmbedField } from '../models/embeds/Embeds.ts';
 
 export function resolveChannels(

@@ -1,7 +1,7 @@
 import Client from "../Client.ts";
 import { headers } from "../../constants/Payloads.ts";
 import { Constants, ENDPOINTS, StatusCode } from "../../constants/Constants.ts";
-import Message from "../../models/Message.ts";
+import { Message } from "../../models/Message.ts";
 import { MessageOptions } from "../../typedefs/MessageOptions.ts";
 
 export default class RestAPIHandler {

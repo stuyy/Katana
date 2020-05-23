@@ -5,7 +5,7 @@ import { ChannelTypeDef } from "../../typedefs/ChannelType.ts";
 import TextBasedChannel from "../interfaces/ITextChannel.ts";
 import { MessageOptions } from "../../typedefs/MessageOptions.ts";
 import Collection from "../Collection.ts";
-import Message from "../Message.ts";
+import { Message } from "../Message.ts";
 import { buildMessage } from '../../utils/resolvers.ts';
 import { MessageEmbed } from '../embeds/Embeds.ts';
 

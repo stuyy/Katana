@@ -8,12 +8,36 @@ import { validateEmoji, checkGuildEmoji } from '../utils/checks.ts';
 import { MessageEmbed } from './embeds/Embeds.ts';
 import Collection from './Collection.ts';
 
-export default class Message {
+export class Message {
   
+  /**
+   * Array of MessageEmbed objects
+   */
   private _embeds: Array<MessageEmbed> = [];
+  /**
+   * Array  of Attachments
+   */
   private _attachments: Array<any> = [];
+  /**
+   * Array of message reactions
+   */
   private _reactions: Collection<string, MessageReaction> = new Collection();
-
+  /**
+   * Creates an instance of message.
+   * @param _id id of the message
+   * @param _channel channel the message was sent in
+   * @param _guild the guild the message was sent in
+   * @param _author the author of the message
+   * @param _member the member of the message
+   * @param _content the message content
+   * @param _timestamp the time the message was sent at
+   * @param _editedAt the time the message was edited at
+   * @param _tts whether this message is tts 
+   * @param _mentionedEveryone whether this message mentions everyone
+   * @param _nonce 
+   * @param _pinned 
+   * @param _type 
+   */
   constructor(
     private _id: string,
     private _channel: TextChannel,
@@ -52,7 +76,12 @@ export default class Message {
   public set embeds(embeds: Array<MessageEmbed>) {
     this._embeds = embeds;
   }
-
+  
+  /**
+   * Deletes message
+   * @param [options] - The options for deleting the message.
+   * @returns Promise<Message> the message that was deleted
+   */
   public delete(options?: MessageDeleteOptions): Promise<Message> {
     return new Promise((resolve, reject) => {
       setTimeout(async () => {
@@ -94,7 +123,11 @@ export default class Message {
     await this.channel.client.rest.createReaction(this.channel.id, this.id, emoji);
     return null;
   }
-
+  /**
+   * Edits the message
+   * @param payload string or message embed 
+   * @returns null
+   */
   public async edit(payload: string | MessageEmbed) {
     console.log('Going to edit...');
     console.log(payload);
