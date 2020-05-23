@@ -11,7 +11,7 @@ import {
 
 export default async function (client: Client, payload: Payload) {
   const { d: guild } = payload;
-  if (client.guilds.has(payload.d.id)) {
+  if (client.guilds.has(guild.id)) {
     const cachedGuild = client.guilds.get(guild.id);
     client.emit(Events.GUILD_CREATE, cachedGuild);
   } else {
@@ -26,6 +26,8 @@ export default async function (client: Client, payload: Payload) {
       newGuild,
       guild.members,
     );
+
+    console.log(guild.channels);
     newGuild.channels = channels;
     newGuild.members = members;
     client.guilds.set(newGuild.id, newGuild);

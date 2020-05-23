@@ -11,6 +11,7 @@ client.on("ready", () => {
   console.log("Bot has logged in.");
 });
 
+
 client.on("message", async (message: Message) => {
 
   console.log(message.channel.messages.size);
