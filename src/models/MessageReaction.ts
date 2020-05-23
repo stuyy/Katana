@@ -2,7 +2,7 @@ import Client from '../client/Client.ts';
 import Emoji from './Emoji.ts';
 import Collection from './Collection.ts';
 import User from './User.ts';
-import Message from './Message.ts';
+import { Message } from './Message.ts';
 
 export class MessageReaction {
   constructor(

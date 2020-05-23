@@ -36,6 +36,8 @@ client.on("message", async (message: Message) => {
     }, 5500);
   } else if (message.content === '?embed') {
     
+  } else if(message.content === '?fetch') {
+    await message.fetch();
   }
 });
 

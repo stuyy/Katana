@@ -7,6 +7,7 @@ import { MessageReaction } from './MessageReaction.ts';
 import { validateEmoji, checkGuildEmoji } from '../utils/checks.ts';
 import { MessageEmbed } from './embeds/Embeds.ts';
 import Collection from './Collection.ts';
+import { buildMessage } from '../utils/resolvers.ts';
 
 export class Message {
   
@@ -135,6 +136,17 @@ export class Message {
       return this.channel.client.rest.editMessage({ content: payload }, this.channel.id, this.id);
     if (payload instanceof MessageEmbed)
       return this.channel.client.rest.editMessage({ embed: payload }, this.channel.id, this.id);
+  }
+
+  public async fetch(): Promise<Message> {
+    if (this.channel.messages.has(this.id)) {
+      console.log('In cache');
+      return this;
+    }
+    else {
+      const response = await this.channel.client.rest.fetchMessage(this.channel.id, this.id);
+      return await buildMessage(this.channel.client, response);
+    }
   }
 }
 

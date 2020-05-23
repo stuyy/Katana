@@ -7,7 +7,7 @@ import Collection from "../models/Collection.ts";
 import { BaseChannel } from "../models/channels/BaseChannel.ts";
 import { GuildChannel } from "../models/channels/GuildChannel.ts";
 import { TextChannel } from "../models/channels/TextChannel.ts";
-import Message from "../models/Message.ts";
+import { Message } from "../models/Message.ts";
 import User from "../models/User.ts";
 import Emoji from '../models/Emoji.ts';
 

@@ -15,7 +15,6 @@ export default async function (client: Client, payload: Payload) {
     const cachedGuild = client.guilds.get(guild.id);
     client.emit(Events.GUILD_CREATE, cachedGuild);
   } else {
-    const now = performance.now();
     let response = await client.rest.fetchChannels(guild.id);
     const roles = resolveRoles(client, guild.roles);
     const emojis = resolveEmojis(client, guild.emojis);
@@ -30,9 +29,6 @@ export default async function (client: Client, payload: Payload) {
     newGuild.channels = channels;
     newGuild.members = members;
     client.guilds.set(newGuild.id, newGuild);
-    const end = performance.now();
-    const diff = end - now;
-    console.log(`Took ${diff}ms...`);
     client.emit(Events.GUILD_CREATE, newGuild);
   }
 }
