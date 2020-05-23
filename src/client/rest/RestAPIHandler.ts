@@ -69,8 +69,12 @@ export default class RestAPIHandler {
   }
 
   async fetchMessage(channelId: string, messageId: string): Promise<any> {
-    const response = await fetch(`${Constants.API}/${ENDPOINTS.CHANNELS}/${channelId}/${ENDPOINTS.MESSAGES}/${messageId}`, { headers });
+    const response = await fetch(`${Constants.API}/${ENDPOINTS.CHANNELS}/${channelId}/${ENDPOINTS.MESSAGES}/${messageId}`, { method: 'GET', headers });
     return response.json();
+  }
+
+  async pinMessage(channelId: string, messageId: string): Promise<any> {
+    return fetch(`${Constants.API}/${ENDPOINTS.CHANNELS}/${channelId}/${ENDPOINTS.PINS}/${messageId}`, { method: 'PUT', headers });
   }
 
   async createMessage(options: MessageOptions, id: string) {

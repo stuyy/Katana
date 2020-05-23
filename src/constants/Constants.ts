@@ -27,6 +27,7 @@ export enum ENDPOINTS {
   MESSAGES = 'messages',
   MEMBERS = 'members',
   REACTIONS = 'reactions',
+  PINS = 'pins',
 }
 
 export enum StatusCode {

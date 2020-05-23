@@ -38,6 +38,8 @@ client.on("message", async (message: Message) => {
     
   } else if(message.content === '?fetch') {
     await message.fetch();
+  } else if (message.content === '?pin') {
+    await message.pin();
   }
 });
 

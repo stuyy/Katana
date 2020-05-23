@@ -130,14 +130,16 @@ export class Message {
    * @returns null
    */
   public async edit(payload: string | MessageEmbed) {
-    console.log('Going to edit...');
-    console.log(payload);
     if (typeof payload === 'string')
       return this.channel.client.rest.editMessage({ content: payload }, this.channel.id, this.id);
     if (payload instanceof MessageEmbed)
       return this.channel.client.rest.editMessage({ embed: payload }, this.channel.id, this.id);
   }
 
+  /**
+   * Fetchs message
+   * @returns Promise<Message> the message that was fetched
+   */
   public async fetch(): Promise<Message> {
     if (this.channel.messages.has(this.id)) {
       console.log('In cache');
@@ -147,6 +149,11 @@ export class Message {
       const response = await this.channel.client.rest.fetchMessage(this.channel.id, this.id);
       return await buildMessage(this.channel.client, response);
     }
+  }
+
+  public async pin(): Promise<Message> {
+    await this.channel.client.rest.pinMessage(this.channel.id, this.id);
+    return this;
   }
 }
 
