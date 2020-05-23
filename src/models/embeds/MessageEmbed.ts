@@ -22,7 +22,7 @@ export class MessageEmbed {
   private video?: MessageEmbedVideo;
   private provider?: MessageEmbedProvider;
   private author?: MessageEmbedAuthor;
-  private fields: Array<MessageEmbedField> = [];
+  private fields?: Array<MessageEmbedField> = [];
 
   constructor(
     title?: string,
@@ -37,6 +37,7 @@ export class MessageEmbed {
     video?: MessageEmbedVideo,
     provider?: MessageEmbedProvider,
     author?: MessageEmbedAuthor,
+    fields: Array<MessageEmbedField> = []
   ) {
     this.title = title;
     this.type = type;
@@ -50,6 +51,7 @@ export class MessageEmbed {
     this.video = video;
     this.provider = provider;
     this.author = author;
+    this.fields = fields;
   }
   
   getTitle(): string | undefined { return this.title; }
@@ -126,7 +128,7 @@ export class MessageEmbed {
   }
 
   addField(text: string, value: string, inline?: boolean): MessageEmbed {
-    this.fields.push(new MessageEmbedField(text,value,inline));
+    this.fields!.push(new MessageEmbedField(text,value,inline));
     return this;
   }
 }

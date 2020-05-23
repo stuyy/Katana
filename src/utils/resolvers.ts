@@ -12,6 +12,7 @@ import { CategoryChannel } from "../models/channels/CategoryChannel.ts";
 import { VoiceChannel } from "../models/channels/VoiceChannel.ts";
 import { BaseChannel } from "../models/channels/BaseChannel.ts";
 import Message from '../models/Message.ts';
+import { MessageEmbed, MessageEmbedFooter, MessageEmbedImage, MessageEmbedThumbnail, MessageEmbedVideo, MessageEmbedProvider, MessageEmbedAuthor, MessageEmbedField } from '../models/embeds/Embeds.ts';
 
 export function resolveChannels(
   client: Client,
@@ -265,20 +266,21 @@ export async function buildMessage(client: Client, message_payload: any) {
     console.log(`Took ${Math.round(end - now)}ms to fetch guild.`);
   }
   const member = guild.members.get(author.id);
-  const {
-    id,
-    content,
-    timestamp,
-    edited_timestamp,
-    tts,
-    mention_everyone,
-    attachments,
-    embeds,
-    reactions,
-    nonce,
-    pinned,
-    type,
-  } = message_payload;
+  const { embeds, reactions, attachments } = message_payload;
+  const message: Message = buildMessageInstance(message_payload, channel, guild, user, member);
+  const messageEmbeds: Array<MessageEmbed> = buildMessageEmbeds(embeds);
+  message.embeds = messageEmbeds;
+  return message;
+}
+
+export function buildMessageInstance(
+  message_payload: any,
+  channel: TextChannel,
+  guild: Guild,
+  user: User,
+  member: GuildMember
+  ): Message {
+  const { id, content, timestamp, edited_timestamp, tts, mention_everyone, nonce, pinned, type } = message_payload;
   return new Message(
     id,
     channel,
@@ -290,15 +292,47 @@ export async function buildMessage(client: Client, message_payload: any) {
     edited_timestamp,
     tts,
     mention_everyone,
-    attachments,
-    embeds,
-    reactions,
     nonce,
     pinned,
-    type,
+    type
   );
 }
 
+export function buildMessageReactions(reactions: Array<any>) {
+
+}
+
+export function buildMessageEmbeds(embeds: Array<any>): Array<MessageEmbed> {
+  const msgEmbeds: Array<MessageEmbed> = [];
+  for (const embed of embeds) {
+    let footer: MessageEmbedFooter = new MessageEmbedFooter();
+    let image: MessageEmbedImage = new MessageEmbedImage();
+    let thumbnail: MessageEmbedThumbnail = new MessageEmbedThumbnail();
+    let video: MessageEmbedVideo = new MessageEmbedVideo();
+    let provider: MessageEmbedProvider = new MessageEmbedProvider();
+    let author: MessageEmbedAuthor =  new MessageEmbedAuthor();
+    let fields: Array<MessageEmbedField> = [];
+    if (embed?.footer)
+      footer = new MessageEmbedFooter(embed?.footer?.text, embed?.footer?.icon_url, embed?.footer?.proxy_icon_url);
+    if (embed?.image)
+      image = new MessageEmbedImage(embed?.image?.url, embed?.image?.proxy_url, embed?.image?.height, embed?.image?.width);
+    if (embed?.thumbnail)
+      thumbnail = new MessageEmbedThumbnail(embed?.thumbnail?.url, embed?.thumbnail?.proxy_url, embed?.thumbnail?.height, embed?.thumbnail?.width);
+    if (embed?.video)
+      video = new MessageEmbedVideo(embed.video?.url, embed.video?.height, embed.video?.width);
+    if (embed?.provider)
+      provider = new MessageEmbedProvider(embed.provider?.name, embed.provider?.url);
+    if (embed?.author)
+      author = new MessageEmbedAuthor(embed.author?.name, embed.author?.url, embed.author?.icon_url, embed.author?.proxy_icon_url);
+    if (embed?.fields) {
+      for (const field of embed.fields)
+        fields.push(new MessageEmbedField(field?.name, field?.value, field?.inline));
+    }
+    msgEmbeds.push(
+      new MessageEmbed(embed?.title, embed?.type, embed?.description, embed?.url, embed?.timestamp, embed?.color, footer, image, thumbnail, video, provider, author, fields)
+    );
+  } return msgEmbeds;
+}
 export function getChannelType(type: number): ChannelType {
   if (type === 0) return ChannelType.TEXT;
   if (type === 1) return ChannelType.DM;

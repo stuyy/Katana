@@ -58,9 +58,9 @@ export class TextChannel extends GuildChannel implements TextBasedChannel {
       const options: MessageOptions = {
         embed: payload
       }
-      console.log(JSON.stringify(options));
       const response = await this.client.rest.createMessage(options, this.id);
-      return;
+      response.guild_id = this.guild.id;
+      return await buildMessage(this.client, response);
     }
     const response = await this.client.rest.createMessage(payload, this.id);
     response.guild_id = this.guild.id;

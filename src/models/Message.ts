@@ -3,13 +3,17 @@ import User from "./User.ts";
 import { TextChannel } from "./channels/TextChannel.ts";
 import GuildMember from './GuildMember.ts';
 import { MessageDeleteOptions } from '../typedefs/MessageOptions.ts';
-import { StatusCode } from '../constants/Constants.ts';
 import { MessageReaction } from './MessageReaction.ts';
 import { validateEmoji, checkGuildEmoji } from '../utils/checks.ts';
-import Emoji from './Emoji.ts';
 import { MessageEmbed } from './embeds/Embeds.ts';
+import Collection from './Collection.ts';
 
 export default class Message {
+  
+  private _embeds: Array<MessageEmbed> = [];
+  private _attachments: Array<any> = [];
+  private _reactions: Collection<string, MessageReaction> = new Collection();
+
   constructor(
     private _id: string,
     private _channel: TextChannel,
@@ -21,12 +25,9 @@ export default class Message {
     private _editedAt: Date,
     private _tts: boolean,
     private _mentionedEveryone: boolean,
-    private _attachments: Array<any>,
-    private _embeds: Array<any>,
-    private _reactions: Array<any>,
     private _nonce: number | string,
     private _pinned: boolean,
-    private _type: number,
+    private _type: number
   ) {
 
   }
@@ -41,13 +42,16 @@ export default class Message {
   public get tts(): boolean { return this._tts; }
   public get mentionedEveryone(): boolean { return this._mentionedEveryone; }
   public get attachments(): Array<any> { return this._attachments; }
-  public get embeds(): Array<any> { return this._embeds; }
-  public get reactions(): Array<any> { return this._reactions; }
+  public get embeds(): Array<MessageEmbed> { return this._embeds; }
+  public get reactions(): Collection<string, MessageReaction> { return this._reactions; }
   public get nonce(): number | string { return this._nonce; }
   public get pinned(): boolean { return this._pinned; }
   public get type(): number { return this._type; }
   public get content(): string { return this._content; }
 
+  public set embeds(embeds: Array<MessageEmbed>) {
+    this._embeds = embeds;
+  }
 
   public delete(options?: MessageDeleteOptions): Promise<Message> {
     return new Promise((resolve, reject) => {
@@ -92,12 +96,12 @@ export default class Message {
   }
 
   public async edit(payload: string | MessageEmbed) {
-    if (typeof payload === 'string') {
+    console.log('Going to edit...');
+    console.log(payload);
+    if (typeof payload === 'string')
       return this.channel.client.rest.editMessage({ content: payload }, this.channel.id, this.id);
-    }
-    if (payload instanceof MessageEmbed) {
+    if (payload instanceof MessageEmbed)
       return this.channel.client.rest.editMessage({ embed: payload }, this.channel.id, this.id);
-    }
   }
 }
 
