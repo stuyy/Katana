@@ -5,6 +5,8 @@ import GuildMember from './GuildMember.ts';
 import { MessageDeleteOptions } from '../typedefs/MessageOptions.ts';
 import { StatusCode } from '../constants/Constants.ts';
 import { MessageReaction } from './MessageReaction.ts';
+import { validateEmoji, checkGuildEmoji } from '../utils/checks.ts';
+import Emoji from './Emoji.ts';
 
 export default class Message {
   constructor(
@@ -62,12 +64,30 @@ export default class Message {
    * 
    * @param emoji the emoji to add to the Message
    */
-  public async react(emoji: any) {
-    try {
-      await this.channel.client.rest.createReaction(this.channel.id, this.id, emoji);
-      // return new MessageReaction(this.channel.client, 1, this.guild.emojis.get(emoji), this, true, )
-    } catch (err) {
-      throw err;
+  public async react(emoji: any): Promise<MessageReaction | null> {
+    const result = validateEmoji(emoji);
+    if (Array.isArray(result)) {
+      const [name,id] = result;
+      const guildEmoji = checkGuildEmoji(id, this.channel.client);
+      if (guildEmoji && guildEmoji.name === name) {
+        const emojiFormat = `${guildEmoji.name}:${guildEmoji.id}`;
+        await this.channel.client.rest.createReaction(this.channel.id, this.id, emojiFormat);
+        return new MessageReaction(this.channel.client, guildEmoji, this, true);
+      }
+      throw new Error('Invalid Emoji.');
     }
+    if (result) {
+      const guildEmoji = checkGuildEmoji(result, this.channel.client);
+      if (guildEmoji) {
+        const emojiFormat = `${guildEmoji.name}:${guildEmoji.id}`;
+        await this.channel.client.rest.createReaction(this.channel.id, this.id, emojiFormat);
+        return new MessageReaction(this.channel.client, guildEmoji, this, true);
+      } throw new Error('Invalid Emoji.');
+    }
+    await this.channel.client.rest.createReaction(this.channel.id, this.id, emoji);
+    return null;
   }
 }
+
+
+

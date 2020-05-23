@@ -27,7 +27,6 @@ export default async function (client: Client, payload: Payload) {
       guild.members,
     );
 
-    console.log(guild.channels);
     newGuild.channels = channels;
     newGuild.members = members;
     client.guilds.set(newGuild.id, newGuild);

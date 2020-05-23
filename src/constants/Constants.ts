@@ -36,3 +36,11 @@ export enum StatusCode {
   BAD = 400,
   NOT_FOUND = 404,
 }
+
+export enum REGEX {
+  EMOJI_WITH_COLON = ':\\w+:\\d+',
+  GROUP_EMOJI_ID = '^:\\w+:(\\d+)$',
+  EMOJI_ID_ONLY = '^\\d+$',
+  GROUP_EMOJI_NAME = '^:(\\w+):\d+$',
+  GROUP_EMOJI = '^:(\\w+):(\\d+)$'
+}

@@ -7,6 +7,8 @@ import Guild from '../src/models/Guild.ts';
 import GuildMember from '../src/models/GuildMember.ts';
 import Role from '../src/models/Role.ts';
 import User from '../src/models/User.ts';
+import { validateEmoji } from '../src/utils/checks.ts';
+import Emoji from '../src/models/Emoji.ts';
 
 const {
   guild,
@@ -82,4 +84,22 @@ it('should build client, clientuser, and guild instances', () => {
     expect(member).toBeInstanceOf(GuildMember);
     expect(member.user).toBeInstanceOf(User);
   }
+});
+
+it('should test for valid emojis', () => {
+  const emoji = ':myemoji:324982332410042324';
+  expect(validateEmoji('dasdsdasd')).toBeNull();
+  expect(validateEmoji(emoji)).toBeTruthy();
+  expect(validateEmoji(emoji)).toBeInstanceOf(Array);
+  expect(validateEmoji(emoji)).toEqual(['myemoji', '324982332410042324']);
+});
+
+it('should add emoji to client.emojis cache and return truthy', () => {
+  const client = new Client();
+  const emoji = new Emoji('324982332410042324', 'myemoji', new Collection(), new Collection(), false, false, false, true);
+  client.emojis.set(emoji.id, emoji);
+  expect(client.emojis.size).toEqual(1);
+  const cachedEmoji = client.emojis.get('324982332410042324');
+  expect(cachedEmoji).toBeTruthy();
+  expect(cachedEmoji).toBeInstanceOf(Emoji);
 });

@@ -7,11 +7,9 @@ import Message from './Message.ts';
 export class MessageReaction {
   constructor(
     private _client: Client,
-    private _count: number,
     private _emoji: Emoji,
     private _message: Message,
     private _me: boolean,
-    private _users: Collection<string, User>
   ) {
 
   }
@@ -20,10 +18,8 @@ export class MessageReaction {
   remove() {}
 
   get count(): Client { return this._client; }
-  get number(): number { return this._count; }
   get emoji(): Emoji { return this._emoji; }
   get message(): Message { return this._message; }
   get me(): boolean { return this._me; }
-  get users(): Collection<string, User> { return this._users; }
 
 }

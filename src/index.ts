@@ -19,7 +19,8 @@ client.on("message", async (message: Message) => {
     const msg = await message.channel.send("hello");
     msg.delete();
   } else if (message.content === '?react') {
-    const msg = await message.react(':python:579255589259968512a');
+    const reaction = await message.react('😂');
+    console.log(reaction);
   }
 });
 
