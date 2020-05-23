@@ -155,6 +155,11 @@ export class Message {
     await this.channel.client.rest.pinMessage(this.channel.id, this.id);
     return this;
   }
+
+  public async unpin(): Promise<Message> {
+    await this.channel.client.rest.unpinMessage(this.channel.id, this.id);
+    return this;
+  }
 }
 
 

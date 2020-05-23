@@ -40,6 +40,8 @@ client.on("message", async (message: Message) => {
     await message.fetch();
   } else if (message.content === '?pin') {
     await message.pin();
+  } else if (message.content === '?unpin') {
+    await message.unpin();
   }
 });
 
