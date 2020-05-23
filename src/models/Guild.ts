@@ -49,7 +49,7 @@ export default class Guild {
   }
 
   public get roles(): Collection<string, Role> { return this._roles; }
-
+  
   public get emojis(): Collection<string, Emoji> { return this._emojis; }
   public set emojis(emojis: Collection<string, Emoji>) { this._emojis = emojis; }
   public get channels(): Collection<string, GuildChannel> { return this._channels; }

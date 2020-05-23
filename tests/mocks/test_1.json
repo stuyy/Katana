@@ -1,0 +1,252 @@
+{
+  "members": [ {
+      "user": {
+        "username": "Stuy",
+        "public_flags": 768,
+        "id": "",
+        "discriminator": "0885",
+        "avatar": ""
+      },
+      "roles": [
+        "713678121043361862"
+      ],
+      "premium_since": null,
+      "nick": null,
+      "mute": false,
+      "joined_at": "2020-05-22T19:07:09.620000+00:00",
+      "hoisted_role": null,
+      "deaf": false
+    },
+    {
+      "user": {
+        "username": "Testy Bot",
+        "id": "687971709319774238",
+        "discriminator": "6549",
+        "bot": true,
+        "avatar": null
+      },
+      "roles": [
+        "713678080639762493",
+        "713678121043361862"
+      ],
+      "premium_since": null,
+      "nick": null,
+      "mute": false,
+      "joined_at": "2020-05-22T19:07:35.325000+00:00",
+      "hoisted_role": null,
+      "deaf": false
+    },
+    {
+      "user": {
+        "username": "Winston",
+        "public_flags": 0,
+        "id": "698105378608644146",
+        "discriminator": "1826",
+        "bot": true,
+        "avatar": "9f4d8bd00378a7cd1c3c18a5f6422970"
+      },
+      "roles": [],
+      "premium_since": null,
+      "nick": null,
+      "mute": false,
+      "joined_at": "2020-05-23T09:03:07.283527+00:00",
+      "hoisted_role": null,
+      "deaf": false
+    }
+  ],
+  "guild": {
+    "presences": [ {
+        "user": {
+          "id": "187090775819943936"
+        },
+        "status": "idle",
+        "game": null,
+        "client_status": {
+          "desktop": "idle"
+        },
+        "activities": []
+      },
+      {
+        "user": {
+          "id": "687971709319774238"
+        },
+        "status": "online",
+        "game": null,
+        "client_status": {
+          "web": "online"
+        },
+        "activities": []
+      }
+    ],
+    "explicit_content_filter": 0,
+    "channels": [ {
+        "type": 4,
+        "position": 0,
+        "permission_overwrites": [],
+        "name": "Text Channels",
+        "id": "713468011935301672"
+      },
+      {
+        "type": 4,
+        "position": 0,
+        "permission_overwrites": [],
+        "name": "Voice Channels",
+        "id": "713468011935301673"
+      },
+      {
+        "type": 0,
+        "topic": null,
+        "rate_limit_per_user": 0,
+        "position": 0,
+        "permission_overwrites": [],
+        "parent_id": "713468011935301672",
+        "name": "general",
+        "last_message_id": "713678388501413969",
+        "id": "713468011935301674"
+      },
+      {
+        "user_limit": 0,
+        "type": 2,
+        "position": 0,
+        "permission_overwrites": [],
+        "parent_id": "713468011935301673",
+        "name": "General",
+        "id": "713468011935301676",
+        "bitrate": 64000
+      }
+    ],
+    "banner": null,
+    "member_count": 3,
+    "verification_level": 0,
+    "members": [ {
+        "user": {
+          "username": "Stuy",
+          "public_flags": 768,
+          "id": "187090775819943936",
+          "discriminator": "0885",
+          "avatar": "a05238a464aa6d41d799ea30d951db98"
+        },
+        "roles": [
+          "713678121043361862"
+        ],
+        "premium_since": null,
+        "nick": null,
+        "mute": false,
+        "joined_at": "2020-05-22T19:07:09.620000+00:00",
+        "hoisted_role": null,
+        "deaf": false
+      },
+      {
+        "user": {
+          "username": "Testy Bot",
+          "id": "687971709319774238",
+          "discriminator": "6549",
+          "bot": true,
+          "avatar": null
+        },
+        "roles": [
+          "713678080639762493",
+          "713678121043361862"
+        ],
+        "premium_since": null,
+        "nick": null,
+        "mute": false,
+        "joined_at": "2020-05-22T19:07:35.325000+00:00",
+        "hoisted_role": null,
+        "deaf": false
+      },
+      {
+        "user": {
+          "username": "Winston",
+          "public_flags": 0,
+          "id": "698105378608644146",
+          "discriminator": "1826",
+          "bot": true,
+          "avatar": "9f4d8bd00378a7cd1c3c18a5f6422970"
+        },
+        "roles": [],
+        "premium_since": null,
+        "nick": null,
+        "mute": false,
+        "joined_at": "2020-05-23T09:03:07.283527+00:00",
+        "hoisted_role": null,
+        "deaf": false
+      }
+    ],
+    "discovery_splash": null,
+    "guild_hashes": {
+      "version": 1,
+      "roles": {
+        "omitted": false,
+        "hash": "B5T0gcKw7Is"
+      },
+      "metadata": {
+        "omitted": false,
+        "hash": "xxH3kDUE0l0"
+      },
+      "channels": {
+        "omitted": false,
+        "hash": "HUn7El8aMfE"
+      }
+    },
+    "large": false,
+    "system_channel_id": "713468011935301674",
+    "afk_channel_id": null,
+    "application_id": null,
+    "unavailable": false,
+    "roles": [ {
+        "position": 0,
+        "permissions": 104320577,
+        "name": "@everyone",
+        "mentionable": false,
+        "managed": false,
+        "id": "713468011494899775",
+        "hoist": false,
+        "color": 0
+      },
+      {
+        "position": 2,
+        "permissions": 104320577,
+        "name": "Automation",
+        "mentionable": false,
+        "managed": false,
+        "id": "713678080639762493",
+        "hoist": false,
+        "color": 15844367
+      },
+      {
+        "position": 1,
+        "permissions": 104320577,
+        "name": "GitHub",
+        "mentionable": false,
+        "managed": false,
+        "id": "713678121043361862",
+        "hoist": false,
+        "color": 0
+      }
+    ],
+    "region": "us-east",
+    "voice_states": [],
+    "joined_at": "2020-05-22T19:07:35.325000+00:00",
+    "preferred_locale": "en-US",
+    "premium_tier": 0,
+    "icon": null,
+    "premium_subscription_count": 0,
+    "lazy": true,
+    "name": "Automation",
+    "features": [],
+    "default_message_notifications": 0,
+    "rules_channel_id": null,
+    "mfa_level": 0,
+    "vanity_url_code": null,
+    "public_updates_channel_id": null,
+    "emojis": [],
+    "splash": null,
+    "owner_id": "187090775819943936",
+    "max_video_channel_users": 25,
+    "description": null,
+    "system_channel_flags": 0,
+    "id": "713468011494899775",
+    "afk_timeout": 300
+  }
+}

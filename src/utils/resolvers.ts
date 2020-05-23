@@ -94,32 +94,31 @@ export function resolveGuildMembersAndUsers(
   const membersMap = new Collection();
   for (const member of members) {
     const { user } = member;
-    client.users.set(
+    const newUser = new User(
       user.id,
-      new User(
-        user.id,
-        user.username,
-        user.discriminator,
-        user.avatar,
-        user.bot,
-        user.system,
-        user.mfaEnabled,
-        user.locale,
-        user.verified,
-        user.flags,
-        user.premiumType,
-        user.public_flags,
-        client,
-      ),
+      user.username,
+      user.discriminator,
+      user.avatar,
+      user.bot,
+      user.system,
+      user.mfaEnabled,
+      user.locale,
+      user.verified,
+      user.flags,
+      user.premiumType,
+      user.public_flags,
+      client,
     );
+    client.users.set(newUser.id, newUser);
     const roles = new Collection<string, Role>();
     for (const role of member.roles) {
       roles.set(role, newGuild.roles.get(role));
     }
     membersMap.set(
-      user.id,
+      newUser.id,
       new GuildMember(
-        user,
+        newUser.id,
+        newUser,
         member.nick,
         roles,
         member.joined_at,
