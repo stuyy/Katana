@@ -7,6 +7,7 @@ import { MessageOptions } from "../../typedefs/MessageOptions.ts";
 import Collection from "../Collection.ts";
 import Message from "../Message.ts";
 import { buildMessage } from '../../utils/resolvers.ts';
+import { MessageEmbed } from '../embeds/Embeds.ts';
 
 export class TextChannel extends GuildChannel implements TextBasedChannel {
 
@@ -46,12 +47,20 @@ export class TextChannel extends GuildChannel implements TextBasedChannel {
 
   get messages(): Collection<string, Message> { return this._messages; }
 
-  async send(payload: string | MessageOptions) {
+  async send(payload: string | MessageOptions | MessageEmbed) {
     if (typeof payload === "string") {
       const body: MessageOptions = { content: payload };
       const response = await this.client.rest.createMessage(body, this.id);
       response.guild_id = this.guild.id;
       return await buildMessage(this.client, response);
+    }
+    if (payload instanceof MessageEmbed) {
+      const options: MessageOptions = {
+        embed: payload
+      }
+      console.log(JSON.stringify(options));
+      const response = await this.client.rest.createMessage(options, this.id);
+      return;
     }
     const response = await this.client.rest.createMessage(payload, this.id);
     response.guild_id = this.guild.id;

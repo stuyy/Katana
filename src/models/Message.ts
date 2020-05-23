@@ -7,6 +7,7 @@ import { StatusCode } from '../constants/Constants.ts';
 import { MessageReaction } from './MessageReaction.ts';
 import { validateEmoji, checkGuildEmoji } from '../utils/checks.ts';
 import Emoji from './Emoji.ts';
+import { MessageEmbed } from './embeds/Embeds.ts';
 
 export default class Message {
   constructor(
@@ -47,6 +48,7 @@ export default class Message {
   public get type(): number { return this._type; }
   public get content(): string { return this._content; }
 
+
   public delete(options?: MessageDeleteOptions): Promise<Message> {
     return new Promise((resolve, reject) => {
       setTimeout(async () => {
@@ -61,10 +63,11 @@ export default class Message {
   }
   
   /**
-   * 
-   * @param emoji the emoji to add to the Message
+   * Reacts to a message
+   * @param emoji - the emoji id, name joined with id, or a unicode emoji
+   * @returns ReactionMessage - the reaction that was added
    */
-  public async react(emoji: any): Promise<MessageReaction | null> {
+  public async react(emoji: string): Promise<MessageReaction | null> {
     const result = validateEmoji(emoji);
     if (Array.isArray(result)) {
       const [name,id] = result;
@@ -86,6 +89,15 @@ export default class Message {
     }
     await this.channel.client.rest.createReaction(this.channel.id, this.id, emoji);
     return null;
+  }
+
+  public async edit(payload: string | MessageEmbed) {
+    if (typeof payload === 'string') {
+      return this.channel.client.rest.editMessage({ content: payload }, this.channel.id, this.id);
+    }
+    if (payload instanceof MessageEmbed) {
+      return this.channel.client.rest.editMessage({ embed: payload }, this.channel.id, this.id);
+    }
   }
 }
 

@@ -24,4 +24,4 @@ jobs:
     - uses: denolib/setup-deno@master
       with:
         deno-version: v1.x
-    - run: deno test --allow-read ./tests/tests.ts
+    - run: deno test --allow-read ./tests

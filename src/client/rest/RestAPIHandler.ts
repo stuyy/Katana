@@ -91,6 +91,17 @@ export default class RestAPIHandler {
     );
   }
 
+  async editMessage(options: MessageOptions, channelId: string, messageId: string) {
+    return fetch(
+      `${Constants.API}/${ENDPOINTS.CHANNELS}/${channelId}/${ENDPOINTS.MESSAGES}/${messageId}`,
+      {
+        method: 'PATCH',
+        headers,
+        body: JSON.stringify(options),
+      }
+    )
+  }
+
   async createReaction(channelId: string, messageId: string, emoji: any): Promise<Response> {
     const response = await fetch (
       `${Constants.API}/${ENDPOINTS.CHANNELS}/${channelId}/${ENDPOINTS.MESSAGES}/${messageId}/${ENDPOINTS.REACTIONS}/${emoji}/@me`,
