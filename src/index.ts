@@ -54,8 +54,7 @@ client.on("message", async (message: Message) => {
 });
 
 client.on('messageReactionAdd', (reaction: MessageReaction, user: User) => {
-  console.log(reaction);
-  console.log(user);
+  console.log(reaction.emoji.name);
 })
 
 // deno run --allow-read --allow-net --allow-env --allow-hrtime ./src/index.ts
