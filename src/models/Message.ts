@@ -8,6 +8,7 @@ import { validateEmoji, checkGuildEmoji } from '../utils/checks.ts';
 import { MessageEmbed } from './embeds/Embeds.ts';
 import Collection from './Collection.ts';
 import { buildMessage } from '../utils/resolvers.ts';
+import { Client } from '../../mod.ts';
 
 export class Message {
   
@@ -40,6 +41,7 @@ export class Message {
    * @param _type 
    */
   constructor(
+    private _client: Client,
     private _id: string,
     private _channel: TextChannel,
     private _guild: Guild,
@@ -57,6 +59,7 @@ export class Message {
 
   }
 
+  public get client(): Client { return this._client; }
   public get id(): string { return this._id; }
   public get channel(): TextChannel { return this._channel; }
   public get user(): User { return this._author; }

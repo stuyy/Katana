@@ -267,7 +267,7 @@ export async function buildMessage(client: Client, message_payload: any) {
   }
   const member = guild.members.get(author.id);
   const { embeds, reactions, attachments } = message_payload;
-  const message: Message = buildMessageInstance(message_payload, channel, guild, user, member);
+  const message: Message = buildMessageInstance(message_payload, client, channel, guild, user, member);
   const messageEmbeds: Array<MessageEmbed> = buildMessageEmbeds(embeds);
   message.embeds = messageEmbeds;
   return message;
@@ -275,6 +275,7 @@ export async function buildMessage(client: Client, message_payload: any) {
 
 export function buildMessageInstance(
   message_payload: any,
+  client: Client,
   channel: TextChannel,
   guild: Guild,
   user: User,
@@ -282,6 +283,7 @@ export function buildMessageInstance(
   ): Message {
   const { id, content, timestamp, edited_timestamp, tts, mention_everyone, nonce, pinned, type } = message_payload;
   return new Message(
+    client,
     id,
     channel,
     guild,
