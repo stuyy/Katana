@@ -33,12 +33,7 @@ export function resolveChannels(
         channel = buildVoiceChannel(client, guild, c);
         break;
       default:
-        channel = new BaseChannel(
-          client,
-          c.id,
-          c?.name,
-          ChannelTypeDef.UNKNOWN,
-        );
+        channel = new BaseChannel(client, c.id, c?.name, ChannelTypeDef.UNKNOWN);
         break;
     }
     client.channels.set(channel.id, channel);
@@ -87,6 +82,23 @@ export function resolveRoles(client: Client, roles: Array<any>) {
   return rolesMap;
 }
 
+export function buildUser(client: Client, user: any) {
+  return new User(
+    user.id,
+    client,
+    user.username,
+    user.discriminator,
+    user.avatar,
+    user.bot,
+    user.system,
+    user.mfa_enabled,
+    user.locale,
+    user.verified,
+    user.flags,
+    user.premium_type,
+    user.public_flags);
+}
+
 export function resolveGuildMembersAndUsers(
   client: Client,
   newGuild: Guild,
@@ -95,26 +107,11 @@ export function resolveGuildMembersAndUsers(
   const membersMap = new Collection();
   for (const member of members) {
     const { user } = member;
-    const newUser = new User(
-      user.id,
-      user.username,
-      user.discriminator,
-      user.avatar,
-      user.bot,
-      user.system,
-      user.mfaEnabled,
-      user.locale,
-      user.verified,
-      user.flags,
-      user.premiumType,
-      user.public_flags,
-      client,
-    );
+    const newUser = buildUser(client, user);
     client.users.set(newUser.id, newUser);
     const roles = new Collection<string, Role>();
-    for (const role of member.roles) {
+    for (const role of member.roles)
       roles.set(role, newGuild.roles.get(role));
-    }
     membersMap.set(
       newUser.id,
       new GuildMember(
@@ -131,11 +128,7 @@ export function resolveGuildMembersAndUsers(
   }
   return membersMap;
 }
-export function buildGuildInstance(
-  roles: Collection<string, Role>,
-  emojis: Collection<string, Emoji>,
-  guild: any,
-) {
+export function buildGuildInstance(guild: any) {
   return new Guild(
     guild.id,
     guild.name,
@@ -144,7 +137,6 @@ export function buildGuildInstance(
     guild.splash,
     guild.discovery_splash,
     guild.features,
-    emojis,
     guild.banner,
     guild.owner_id,
     guild.application_id,
@@ -155,7 +147,6 @@ export function buildGuildInstance(
     guild.widget_enabled,
     guild.widget_channel_id,
     guild.verification_level,
-    roles,
     guild.default_message_notifications,
     guild.mfa_level,
     guild.explicit_content_filter,

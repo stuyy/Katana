@@ -57,9 +57,10 @@ it('should build client, clientuser, and guild instances', () => {
   expect(emojiCollection.size).toEqual(0);
 
   const buildGuildInstanceMock = mock.fn(buildGuildInstance);
-  const guildObj: Guild = buildGuildInstanceMock(roleCollection, emojiCollection, guild);
-
-  expect(buildGuildInstanceMock).toHaveBeenCalledWith(roleCollection, emojiCollection, guild);
+  const guildObj: Guild = buildGuildInstanceMock(guild);
+  guildObj.roles = roleCollection;
+  guildObj.emojis = emojiCollection;
+  expect(buildGuildInstanceMock).toHaveBeenCalledWith(guild);
   expect(buildGuildInstanceMock).toHaveBeenCalledTimes(1);
   expect(guildObj).toBeInstanceOf(Guild);
   expect(guildObj.name).toEqual('Automation');
@@ -96,7 +97,8 @@ it('should test for valid emojis', () => {
 
 it('should add emoji to client.emojis cache and return truthy', () => {
   const client = new Client();
-  const emoji = new Emoji('324982332410042324', 'myemoji', new Collection(), new Collection(), false, false, false, true);
+  const user = new User('123', client, 'hi', '12345', 'dsadasd');
+  const emoji = new Emoji('324982332410042324', 'myemoji', new Collection(), user, false, false, false, true);
   client.emojis.set(emoji.id, emoji);
   expect(client.emojis.size).toEqual(1);
   const cachedEmoji = client.emojis.get('324982332410042324');

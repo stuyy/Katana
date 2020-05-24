@@ -12,7 +12,7 @@ import {
 
 export default async function (client: Client, payload: Payload) {
   const { user, guilds } = payload.d;
-
+  
   client.user = new ClientUser(
     user.username,
     user.discriminator,
@@ -35,12 +35,13 @@ export default async function (client: Client, payload: Payload) {
       );
       const roles = resolveRoles(client, fetchedGuild.roles);
       const emojis = resolveEmojis(client, fetchedGuild.emojis);
-      const newGuild = buildGuildInstance(roles, emojis, fetchedGuild);
+      const newGuild = buildGuildInstance(fetchedGuild);
       const channels = resolveChannels(client, newGuild, fetchedChannels);
       const members = resolveGuildMembersAndUsers(client, newGuild, fetchedMembers);
       newGuild.channels = channels;
       newGuild.members = members;
       newGuild.emojis = emojis;
+      newGuild.roles = roles;
       client.guilds.set(newGuild.id, newGuild);
     }
   }

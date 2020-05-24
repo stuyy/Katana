@@ -1,0 +1,58 @@
+[ {
+  "user_id": "187090775819943936",
+  "message_id": "714111127755292713",
+  "member": {
+    "user": {
+      "username": "Stuy",
+      "public_flags": 768,
+      "id": "",
+      "discriminator": "0885",
+      "avatar": ""
+    },
+    "roles": [
+      "533898804391444490",
+      "578864522186588180"
+    ],
+    "premium_since": null,
+    "nick": null,
+    "mute": false,
+    "joined_at": "2019-01-10T23:53:12.123000+00:00",
+    "hoisted_role": null,
+    "deaf": false
+  },
+  "emoji": {
+    "name": "facebook",
+    "id": "533898655326011392"
+  },
+  "channel_id": "710969469320560700",
+  "guild_id": "533070839806165023"
+}, {
+		"user_id": "187090775819943936",
+		"message_id": "714111127755292713",
+		"member": {
+			"user": {
+				"username": "Stuy",
+				"public_flags": 768,
+				"id": "",
+				"discriminator": "0885",
+				"avatar": ""
+			},
+			"roles": [
+				"533898804391444490",
+				"578864522186588180"
+			],
+			"premium_since": null,
+			"nick": null,
+			"mute": false,
+			"joined_at": "2019-01-10T23:53:12.123000+00:00",
+			"hoisted_role": null,
+			"deaf": false
+		},
+		"emoji": {
+			"name": "😂",
+			"id": null
+		},
+		"channel_id": "710969469320560700",
+		"guild_id": "533070839806165023"
+  }
+]

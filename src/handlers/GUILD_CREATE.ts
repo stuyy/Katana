@@ -18,16 +18,15 @@ export default async function (client: Client, payload: Payload) {
     let response = await client.rest.fetchChannels(guild.id);
     const roles = resolveRoles(client, guild.roles);
     const emojis = resolveEmojis(client, guild.emojis);
-    const newGuild = buildGuildInstance(roles, emojis, guild);
+    const newGuild = buildGuildInstance(guild);
     const channels = resolveChannels(client, guild, response);
-    const members = resolveGuildMembersAndUsers(
-      client,
-      newGuild,
-      guild.members,
-    );
+    const members = resolveGuildMembersAndUsers(client, newGuild, guild.members);
 
     newGuild.channels = channels;
     newGuild.members = members;
+    newGuild.emojis = emojis;
+    newGuild.roles = roles;
+  
     client.guilds.set(newGuild.id, newGuild);
     client.emit(Events.GUILD_CREATE, newGuild);
   }

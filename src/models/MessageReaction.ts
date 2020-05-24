@@ -23,3 +23,4 @@ export class MessageReaction {
   get me(): boolean { return this._me; }
 
 }
+

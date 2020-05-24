@@ -10,6 +10,7 @@ import { TextChannel } from "../models/channels/TextChannel.ts";
 import { Message } from "../models/Message.ts";
 import User from "../models/User.ts";
 import Emoji from '../models/Emoji.ts';
+import { MessageReaction } from '../models/MessageReaction.ts';
 
 interface ClientEvents {
   channelCreate: (channel: GuildChannel) => void;
@@ -23,9 +24,18 @@ interface ClientEvents {
   ready: () => void;
   resumed: () => void;
   message: (message: Message) => void;
+  messageReactionAdd: (reaction: MessageReaction, user: User) => void;
 }
 
 export declare interface Client {
+  user: ClientUser;
+  guilds: Collection<string, Guild>;
+  channels: Collection<string, BaseChannel>;
+  users: Collection<string, User>;
+  emojis: Collection<string, Emoji>;
+  socket: WebSocketManager;
+  rest: RestAPIHandler;
+
   on<Event extends keyof ClientEvents>(
     event: Event,
     listener: ClientEvents[Event],
@@ -38,34 +48,29 @@ export declare interface Client {
     event: Event,
     ...args: Parameters<ClientEvents[Event]>
   ): boolean;
+
+  login(token: string): Promise<void>;
 }
 
 export class Client extends EventEmitter {
-  private _user!: ClientUser;
-  private _guilds: Collection<string, Guild> = new Collection();
-  private _channels: Collection<string, BaseChannel> = new Collection();
-  private _users: Collection<string, User> = new Collection();
-  private _emojis: Collection<string, Emoji> = new Collection();
-
-  private socket: WebSocketManager = new WebSocketManager(this);
-  private _rest: RestAPIHandler = new RestAPIHandler(this);
+  constructor() {
+    super();
+    this.guilds = new Collection();
+    this.channels = new Collection();
+    this.users = new Collection();
+    this.emojis = new Collection();
+    this.socket = new WebSocketManager(this);
+    this.rest = new RestAPIHandler(this);
+  }
 
   async login(token: string): Promise<void> {
     try {
-      this._rest.token = token;
+      this.rest.token = token;
       await this.socket.connect(token);
     } catch (err) {
       console.log(err);
     }
   }
-
-  get user() { return this._user; }
-  set user(user: ClientUser) { this._user = user; }
-  get guilds() { return this._guilds; }
-  get rest(): RestAPIHandler { return this._rest; }
-  get channels(): Collection<string, BaseChannel> { return this._channels; }
-  get users(): Collection<string, User> { return this._users; }
-  get emojis(): Collection<string, Emoji> { return this._emojis; }
 }
 
 export default Client;

@@ -3,18 +3,18 @@ import Client from "../client/Client.ts";
 export default class User {
   constructor(
     private _id: string,
+    private _client: Client,
     private _username: string,
     private _discriminator: string,
     private _avatar: string,
-    private _bot: boolean = false,
-    private _system: boolean,
-    private _mfaEnabled: boolean = false,
-    private _locale: boolean = false,
-    private _verified: boolean = false,
-    private _flags: number,
-    private _premiumType: number,
-    private _publicFlags: number,
-    private _client: Client,
+    private _bot?: boolean,
+    private _system?: boolean,
+    private _mfaEnabled?: boolean,
+    private _locale?: boolean,
+    private _verified?: boolean,
+    private _flags?: number,
+    private _premiumType?: number,
+    private _publicFlags?: number,
   ) {
   }
   /**
@@ -53,7 +53,7 @@ export default class User {
    * Getter bot
    * @return {boolean}
    */
-  public get bot(): boolean {
+  public get bot(): boolean | undefined {
     return this._bot;
   }
 
@@ -61,7 +61,7 @@ export default class User {
    * Getter system
    * @return {boolean}
    */
-  public get system(): boolean {
+  public get system(): boolean | undefined {
     return this._system;
   }
 
@@ -69,7 +69,7 @@ export default class User {
    * Getter mfaEnabled
    * @return {boolean}
   */
-  public get mfaEnabled(): boolean {
+  public get mfaEnabled(): boolean | undefined {
     return this._mfaEnabled;
   }
 
@@ -77,7 +77,7 @@ export default class User {
    * Getter locale
    * @return {boolean}
    */
-  public get locale(): boolean {
+  public get locale(): boolean | undefined {
     return this._locale;
   }
 
@@ -85,7 +85,7 @@ export default class User {
    * Getter verified
    * @return {boolean}
    */
-  public get verified(): boolean {
+  public get verified(): boolean | undefined {
     return this._verified;
   }
 
@@ -93,7 +93,7 @@ export default class User {
    * Getter flags
    * @return {number}
    */
-  public get flags(): number {
+  public get flags(): number | undefined {
     return this._flags;
   }
 
@@ -101,10 +101,13 @@ export default class User {
    * Getter premiumType
    * @return {number}
    */
-  public get premiumType(): number {
+  public get premiumType(): number | undefined {
     return this._premiumType;
   }
 
+  public get publicFlags(): number | undefined {
+    return this._publicFlags;
+  }
   public get client(): Client {
     return this._client;
   }

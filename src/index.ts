@@ -4,6 +4,8 @@ import { Message } from "./models/Message.ts";
 import { MessageEmbed } from './models/embeds/Embeds.ts';
 import { MessageCollector } from './models/collectors/MessageCollector.ts';
 import Collection from './models/Collection.ts';
+import { MessageReaction } from './models/MessageReaction.ts';
+import User from './models/User.ts';
 
 
 const client = new Client();
@@ -51,5 +53,9 @@ client.on("message", async (message: Message) => {
   }
 });
 
+client.on('messageReactionAdd', (reaction: MessageReaction, user: User) => {
+  console.log(reaction);
+  console.log(user);
+})
 
 // deno run --allow-read --allow-net --allow-env --allow-hrtime ./src/index.ts
