@@ -6,7 +6,6 @@ import { Message } from '../Message.ts';
 export class MessageCollector extends BaseCollector {
   constructor(channel: TextChannel, filter: Function, options?: MessageCollectorOptions) {
     super(channel.client, filter, options);
-    console.log('Attached Message Event...');
     this.client.on('message', this.handleCollect.bind(this));
     setTimeout(() => {
       this.emit('end', this.collected);
