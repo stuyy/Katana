@@ -2,6 +2,8 @@ import { Client } from "../mod.ts";
 import "https://deno.land/x/dotenv/load.ts";
 import { Message } from "./models/Message.ts";
 import { MessageEmbed } from './models/embeds/Embeds.ts';
+import { MessageCollector } from './models/collectors/MessageCollector.ts';
+import Collection from './models/Collection.ts';
 
 
 const client = new Client();
@@ -22,7 +24,7 @@ client.on("message", async (message: Message) => {
 
   if (message.content === "?hello") {
     const msg = await message.channel.send("hello");
-    msg.delete();
+    msg.delete({ timeout: 5000 });
   } else if (message.content === '?react') {
     const reaction = await message.react('😂');
     console.log(reaction);
@@ -42,6 +44,10 @@ client.on("message", async (message: Message) => {
     await message.pin();
   } else if (message.content === '?unpin') {
     await message.unpin();
+  } else if (message.content === '?collect') {
+    const filter = (m: Message) => m.user.id === message.user.id;
+    const collector = new MessageCollector(message.channel, filter, { time: 10000 });
+    
   }
 });
 

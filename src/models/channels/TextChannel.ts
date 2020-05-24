@@ -12,7 +12,7 @@ import { MessageEmbed } from '../embeds/Embeds.ts';
 export class TextChannel extends GuildChannel implements TextBasedChannel {
 
   private _messages: Collection<string, Message> = new Collection();
-
+  
   constructor(
     _id: string,
     _client: Client,

@@ -30,6 +30,10 @@ export declare interface Client {
     event: Event,
     listener: ClientEvents[Event],
   ): this;
+  off<Event extends keyof ClientEvents>(
+    event: Event,
+    listener: ClientEvents[Event]
+  ): this;
   emit<Event extends keyof ClientEvents>(
     event: Event,
     ...args: Parameters<ClientEvents[Event]>
