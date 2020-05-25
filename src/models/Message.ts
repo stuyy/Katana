@@ -44,9 +44,9 @@ export class Message {
     private _client: Client,
     private _id: string,
     private _channel: TextChannel,
-    private _guild: Guild,
+    private _guild: Guild | null,
     private _author: User,
-    private _member: any,
+    private _member: any | null,
     private _content: string,
     private _timestamp: Date,
     private _editedAt: Date,
@@ -63,8 +63,8 @@ export class Message {
   public get id(): string { return this._id; }
   public get channel(): TextChannel { return this._channel; }
   public get user(): User { return this._author; }
-  public get guild(): Guild { return this._guild; }
-  public get member(): GuildMember { return this._member; }
+  public get guild(): Guild | null { return this._guild; }
+  public get member(): GuildMember | null { return this._member; }
   public get timestamp(): Date { return this._timestamp; }
   public get editedAt(): Date { return this._editedAt; }
   public get tts(): boolean { return this._tts; }

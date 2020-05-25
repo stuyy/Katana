@@ -13,6 +13,8 @@ import { VoiceChannel } from "../models/channels/VoiceChannel.ts";
 import { BaseChannel } from "../models/channels/BaseChannel.ts";
 import { Message } from '../models/Message.ts';
 import { MessageEmbed, MessageEmbedFooter, MessageEmbedImage, MessageEmbedThumbnail, MessageEmbedVideo, MessageEmbedProvider, MessageEmbedAuthor, MessageEmbedField } from '../models/embeds/Embeds.ts';
+import { MessageType } from '../typedefs/MessageType.ts';
+import { DMChannel } from '../models/channels/DMChannel.ts';
 
 export function resolveChannels(
   client: Client,
@@ -222,6 +224,18 @@ export function buildTextChannel(client: Client, guild: Guild, c: any) {
   );
 }
 
+export function buildDMChannel(client: Client, channelData: any): DMChannel {
+  return new DMChannel(
+    channelData.id,
+    client,
+    ChannelTypeDef.DM,
+    channelData.last_message_id,
+    channelData.last_pin_timestmap,
+    channelData.name,
+    channelData.position
+  );
+}
+
 export function buildGroupDMChannel(client: Client, guild: Guild, c: any) {
 }
 
@@ -231,16 +245,24 @@ export async function buildMessage(client: Client, message_payload: any) {
     channel_id,
     guild_id,
     author,
+    embeds,
   } = message_payload;
-
   let channel = client.channels.get(channel_id);
   let guild: Guild = client.guilds.get(guild_id);
   let user: User = client.users.get(author.id);
-  if (!channel) {
-    const now = performance.now();
-    channel = await client.rest.fetchChannel(channel_id);
-    const end = performance.now();
-    console.log(`Took ${Math.round(end - now)}ms to fetch channel.`);
+  if (!channel) channel = await client.rest.fetchChannel(channel_id);
+  const type: ChannelType = getChannelType(channel.type);
+  if (type === ChannelType.DM) {
+    if (!(channel instanceof DMChannel))
+      channel = buildDMChannel(client, channel);
+    if (!user) {
+      user = await client.rest.fetchUser(author.id);
+      user = buildUser(client, user);
+    }
+    const message: Message = buildMessageInstance(message_payload, client, channel, null, user, null);
+    const messageEmbeds: Array<MessageEmbed> = buildMessageEmbeds(embeds);
+    message.embeds = messageEmbeds;
+    return message;
   }
 
   if (!guild) {
@@ -249,15 +271,14 @@ export async function buildMessage(client: Client, message_payload: any) {
     const end = performance.now();
     console.log(`Took ${Math.round(end - now)}ms to fetch guild.`);
   }
-
   if (!user) {
     const now = performance.now();
     user = await client.rest.fetchUser(author.id);
     const end = performance.now();
     console.log(`Took ${Math.round(end - now)}ms to fetch guild.`);
   }
+
   const member = guild.members.get(author.id);
-  const { embeds, reactions, attachments } = message_payload;
   const message: Message = buildMessageInstance(message_payload, client, channel, guild, user, member);
   const messageEmbeds: Array<MessageEmbed> = buildMessageEmbeds(embeds);
   message.embeds = messageEmbeds;
@@ -268,9 +289,9 @@ export function buildMessageInstance(
   message_payload: any,
   client: Client,
   channel: TextChannel,
-  guild: Guild,
+  guild: Guild | null,
   user: User,
-  member: GuildMember
+  member: GuildMember | null,
   ): Message {
   const { id, content, timestamp, edited_timestamp, tts, mention_everyone, nonce, pinned, type } = message_payload;
   return new Message(
@@ -326,6 +347,7 @@ export function buildMessageEmbeds(embeds: Array<any>): Array<MessageEmbed> {
     );
   } return msgEmbeds;
 }
+
 export function getChannelType(type: number): ChannelType {
   if (type === 0) return ChannelType.TEXT;
   if (type === 1) return ChannelType.DM;
@@ -335,4 +357,23 @@ export function getChannelType(type: number): ChannelType {
   if (type === 5) return ChannelType.NEWS;
   if (type === 6) return ChannelType.STORE;
   return ChannelType.UNKNOWN;
+}
+
+export function getMessageType(type: number): MessageType {
+  if (type === 0) return MessageType.DEFAULT;
+  if (type === 1) return MessageType.RECEPIENT_ADD;
+  if (type === 2) return MessageType.RECIPIENT_REMOVE;
+  if (type === 3) return MessageType.CALL;
+  if (type === 4) return MessageType.CHANNEL_NAME_CHANGE;
+  if (type === 5) return MessageType.CHANNEL_ICON_CHANGE;
+  if (type === 6) return MessageType.CHANNEL_PINNED_MESSAGE;
+  if (type === 7) return MessageType.GUILD_MEMBER_JOIN;
+  if (type === 8) return MessageType.USER_PREMIUM_GUILD_SUBSCRIPTION;
+  if (type === 9) return MessageType.USER_PREMIUM_GUILD_SUBSCRIPTION_TIER_1;
+  if (type === 10) return MessageType.USER_PREMIUM_GUILD_SUBSCRIPTION_TIER_2;
+  if (type === 11) return MessageType.USER_PREMIUM_GUILD_SUBSCRIPTION_TIER_3;
+  if (type === 12) return MessageType.CHANNEL_FOLLOW_ADD;
+  if (type === 14) return MessageType.GUILD_DISCOVERY_DISQUALIFIED;
+  if (type === 15) return MessageType.GUILD_DISCOVERY_REQUALIFIED;
+  return MessageType.UNKNOWN_MESSAGE;
 }

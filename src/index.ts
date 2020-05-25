@@ -24,6 +24,12 @@ const embed = new MessageEmbed()
 
 client.on("message", async (message: Message) => {
 
+  if (message.channel.type === 'dm') {
+    if (message.user.bot) return;
+    else {
+      message.channel.send('hi');
+    }
+  }
   if (message.content === "?hello") {
     const msg = await message.channel.send("hello");
     msg.delete({ timeout: 5000 });
