@@ -45,7 +45,9 @@ client.on("message", async (message: Message) => {
       await msg.edit(embed); 
     }, 5500);
   } else if (message.content === '?embed') {
-    
+    const embed = new MessageEmbed()
+      .setDescription('hi');
+    message.channel.send(embed);
   } else if(message.content === '?fetch') {
     await message.fetch();
   } else if (message.content === '?pin') {

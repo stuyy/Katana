@@ -5,3 +5,13 @@ export { BaseChannel } from "./src/models/channels/BaseChannel.ts";
 export { TextChannel } from "./src/models/channels/TextChannel.ts";
 export { CategoryChannel } from "./src/models/channels/CategoryChannel.ts";
 export { VoiceChannel } from "./src/models/channels/VoiceChannel.ts";
+export {
+  MessageEmbed,
+  MessageEmbedAuthor,
+  MessageEmbedField,
+  MessageEmbedFooter,
+  MessageEmbedImage,
+  MessageEmbedProvider,
+  MessageEmbedThumbnail,
+  MessageEmbedVideo
+} from './src/models/embeds/Embeds.ts';

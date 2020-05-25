@@ -11,8 +11,8 @@ export const Identify = {
     token: "",
     properties: {
       $os: "linux",
-      $browser: "denocord",
-      $device: "denocord",
+      $browser: "katana",
+      $device: "katana",
     },
   },
 };

@@ -15,7 +15,7 @@
 # Usage
 
 ```TS
-import { Client } from 'https://deno.land/x/katana/mod.ts'
+import { Client, MessageEmbed } from 'https://deno.land/x/katana/mod.ts'
 
 const client = new Client();
 
@@ -26,15 +26,18 @@ client.on('ready', () => {
 client.on('message', (message) => {
 
   if (message.content === 'hello') {
-    message.channel.send('Hello World!);
+    message.channel.send('Hello World!');
   } else if (message.content === 'embed') {
-    message.channel.send({
-      embed: { title: 'hello' }
-    });
+    const embed = new MessageEmbed()
+      .setDescription('hello world')
+      .setColor(13198335)
+      .setTitle('This is an embed');
+    message.channel.send(embed);
   }
 });
 
 client.login('token');
+
 ```
 
 # Features
