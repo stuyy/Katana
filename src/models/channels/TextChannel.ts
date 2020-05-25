@@ -8,6 +8,8 @@ import Collection from "../Collection.ts";
 import { Message } from "../Message.ts";
 import { buildMessage } from '../../utils/resolvers.ts';
 import { MessageEmbed } from '../embeds/Embeds.ts';
+import { MessageCollectorOptions } from '../../typedefs/CollectorOptions.ts';
+import { MessageCollector } from '../collectors/MessageCollector.ts';
 
 export class TextChannel extends GuildChannel implements TextBasedChannel {
 
@@ -65,5 +67,14 @@ export class TextChannel extends GuildChannel implements TextBasedChannel {
     const response = await this.client.rest.createMessage(payload, this.id);
     response.guild_id = this.guild.id;
     return await buildMessage(this.client, response);
+  }
+
+  async awaitMessages(filter: Function, options?: MessageCollectorOptions): Promise<Collection<string, Message>> {
+    return new Promise((resolve, reject) => {
+      const collector = new MessageCollector(this, filter, options);
+      collector.on('end', (collected: Collection<string, Message>) => {
+        resolve(collected);
+      });
+    })
   }
 }

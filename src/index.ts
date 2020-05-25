@@ -70,6 +70,10 @@ client.on("message", async (message: Message) => {
     const filter = (reaction: MessageReaction, user: User) => true;
     const reactions = await message.awaitReactions(filter, { time: 5000 });
     console.log(reactions);
+  } else if (message.content === '?awaitmsg') {
+    const f = (m: Message) => true;
+    const msgs: Collection<string, Message> = await message.channel.awaitMessages(f, { time: 5000 });
+    console.log(msgs.size);
   }
 });
 
