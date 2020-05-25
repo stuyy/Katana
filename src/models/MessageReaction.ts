@@ -10,6 +10,7 @@ export class MessageReaction {
     private _emoji: Emoji,
     private _message: Message,
     private _me: boolean,
+    private _users: Collection<string, User>
   ) {
 
   }
@@ -21,6 +22,7 @@ export class MessageReaction {
   get emoji(): Emoji { return this._emoji; }
   get message(): Message { return this._message; }
   get me(): boolean { return this._me; }
+  get users(): Collection<string, User> { return this._users; }
 
 }
 

@@ -9,6 +9,8 @@ import { MessageEmbed } from './embeds/Embeds.ts';
 import Collection from './Collection.ts';
 import { buildMessage } from '../utils/resolvers.ts';
 import { Client } from '../../mod.ts';
+import { ReactionCollectorOptions } from '../typedefs/CollectorOptions.ts';
+import { ReactionCollector } from './collectors/ReactionCollector.ts';
 
 export class Message {
   
@@ -112,7 +114,7 @@ export class Message {
       if (guildEmoji && guildEmoji.name === name) {
         const emojiFormat = `${guildEmoji.name}:${guildEmoji.id}`;
         await this.channel.client.rest.createReaction(this.channel.id, this.id, emojiFormat);
-        return new MessageReaction(this.channel.client, guildEmoji, this, true);
+        return new MessageReaction(this.channel.client, guildEmoji, this, true, new Collection<string, User>());
       }
       throw new Error('Invalid Emoji.');
     }
@@ -121,7 +123,7 @@ export class Message {
       if (guildEmoji) {
         const emojiFormat = `${guildEmoji.name}:${guildEmoji.id}`;
         await this.channel.client.rest.createReaction(this.channel.id, this.id, emojiFormat);
-        return new MessageReaction(this.channel.client, guildEmoji, this, true);
+        return new MessageReaction(this.channel.client, guildEmoji, this, true, new Collection<string, User>());
       } throw new Error('Invalid Emoji.');
     }
     await this.channel.client.rest.createReaction(this.channel.id, this.id, emoji);
@@ -162,6 +164,15 @@ export class Message {
   public async unpin(): Promise<Message> {
     await this.channel.client.rest.unpinMessage(this.channel.id, this.id);
     return this;
+  }
+
+  public async awaitReactions(filter: Function, options?: ReactionCollectorOptions) {
+    return new Promise((resolve, reject) => {
+      const collector = new ReactionCollector(this, filter, options);
+      collector.on('end', (collected: Collection<string, MessageReaction>) => {
+        resolve(collected);
+      });
+    });
   }
 }
 

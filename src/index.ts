@@ -6,6 +6,7 @@ import { MessageCollector } from './models/collectors/MessageCollector.ts';
 import Collection from './models/Collection.ts';
 import { MessageReaction } from './models/MessageReaction.ts';
 import User from './models/User.ts';
+import { ReactionCollector } from './models/collectors/ReactionCollector.ts';
 
 
 const client = new Client();
@@ -24,18 +25,20 @@ const embed = new MessageEmbed()
 
 client.on("message", async (message: Message) => {
 
-  if (message.channel.type === 'dm') {
-    if (message.user.bot) return;
-    else {
-      message.channel.send('hi');
-    }
-  }
   if (message.content === "?hello") {
     const msg = await message.channel.send("hello");
     msg.delete({ timeout: 5000 });
   } else if (message.content === '?react') {
     const reaction = await message.react('😂');
-    console.log(reaction);
+    const filter = (reaction: MessageReaction, user: User) => true;
+    const collector = new ReactionCollector(message, filter, { time: 10000 });
+    collector.on('collect', (reaction: MessageReaction, user: User) => {
+      console.log(reaction.emoji.name);
+      console.log(user.username);
+    });
+    collector.on('end', (collected: any) => {
+      console.log(collected);
+    })
   } else if (message.content === '?edit') {
     const msg = await message.channel.send(embed);
     console.log(msg);
@@ -56,13 +59,19 @@ client.on("message", async (message: Message) => {
     await message.unpin();
   } else if (message.content === '?collect') {
     const filter = (m: Message) => m.user.id === message.user.id;
-    const collector = new MessageCollector(message.channel, filter, { time: 10000 });
-    
+    const collector = new MessageCollector(message.channel, filter, { time: 2000 });
+    collector.on('collect', (m: Message) => {
+      console.log(m.content);
+    });
+    collector.on('end', (m: any) => {
+      console.log('ended');
+    })
+  } else if (message.content === '?await') {
+    const filter = (reaction: MessageReaction, user: User) => true;
+    const reactions = await message.awaitReactions(filter, { time: 5000 });
+    console.log(reactions);
   }
 });
 
-client.on('messageReactionAdd', (reaction: MessageReaction, user: User) => {
-  console.log(reaction.emoji.name);
-})
 
 // deno run --allow-read --allow-net --allow-env --allow-hrtime ./src/index.ts
