@@ -25,6 +25,7 @@ interface ClientEvents {
   resumed: () => void;
   message: (message: Message) => void;
   messageReactionAdd: (reaction: MessageReaction, user: User) => void;
+  messageReactionRemove: (reaction: MessageReaction, user: User) => void;
 }
 
 export declare interface Client {
