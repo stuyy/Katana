@@ -1,4 +1,4 @@
-import { connectWebSocket, WebSocket } from "https://deno.land/std/ws/mod.ts";
+import { connectWebSocket, WebSocket } from "https://deno.land/std@0.60.0/ws/mod.ts";
 import EventEmitter from "https://deno.land/std@0.51.0/node/events.ts";
 import { Constants, OPCODE } from "../../constants/Constants.ts";
 import { Identify, Heartbeat } from "../../constants/Payloads.ts";
